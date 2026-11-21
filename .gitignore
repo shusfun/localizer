@@ -1,0 +1,5 @@
+/Localizer.exe
+/localizer-data/
+/*.tmp
+*.test
+*.test.exe

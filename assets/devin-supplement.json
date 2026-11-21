@@ -1,0 +1,18 @@
+{
+  "Authentication for the air-gapped Devin agent — both Devin Local and the devin CLI on this machine. No Cognition servers are involved; sign-in uses your organization's identity provider or an offline license file.": "隔离网络中的 Devin 智能体认证，适用于此设备上的 Devin Local 和 devin CLI。认证无需连接 Cognition 的服务器，可使用组织的身份提供商或离线许可证文件登录。",
+  "Could not load model settings from the agent. Make sure the bundled Devin agent is running; if it fails to start, run <code>devin models validate</code> and <code>devin airgap doctor</code> in a terminal for the underlying error.": "无法从智能体加载模型设置。请确认随应用安装的 Devin 智能体正在运行。如果无法启动，请在终端运行 <code>devin models validate</code> 和 <code>devin airgap doctor</code> 查看具体错误。",
+  "Devin hit your per-message usage limit, so it automatically paused to prevent runaway spend. Want it to keep going? Send a message, or <limitButton>raise or remove the limit</limitButton> for this session. Raising the limit in settings only applies to new sessions.": "已达到单条消息的用量上限，Devin 已自动暂停，以免产生过多费用。要继续运行，可以发送一条消息，或为本会话<limitButton>提高或移除上限</limitButton>。在设置中提高上限仅对新会话生效。",
+  "Devin hit your per-message usage limit, so it automatically paused to prevent runaway spend. Want it to keep going? Send a message, or raise or remove the limit in [usage settings](/settings/usage?tab=limits).": "已达到单条消息的用量上限，Devin 已自动暂停，以免产生过多费用。要继续运行，可以发送一条消息，或在[用量设置](/settings/usage?tab=limits)中提高或移除上限。",
+  "Edited files": "已编辑的文件",
+  "My Workspace": "我的工作区",
+  "No MCP servers configured": "尚未配置 MCP 服务器",
+  "PR #{{number}}": "拉取请求 #{{number}}",
+  "Searched files": "已搜索文件",
+  "Searching files": "正在搜索文件",
+  "The agent cannot use these model settings until every diagnostic above is fixed. The same checks run from a terminal with <code>devin models validate</code>; see the models file reference for the schema v0 format and how to migrate older files.": "修复上方诊断列出的所有问题后，智能体才能使用这些模型设置。你也可以在终端运行 <code>devin models validate</code> 执行同样的检查。有关 v0 架构及旧版文件迁移方法，请参阅模型文件参考。",
+  "The agent started in a degraded state because of the issues below; new sessions are blocked until they are fixed. Installing a valid license takes effect immediately; other fixes need an agent restart.": "由于以下问题，智能体以受限模式启动。修复后才能新建会话。安装有效许可证会立即生效，其他修复需要重启智能体。",
+  "{{hours}}h": "{{hours}} 小时",
+  "{{minutes}}m": "{{minutes}} 分钟",
+  "{{minutes}}m {{seconds}}s": "{{minutes}} 分 {{seconds}} 秒",
+  "{{start}}-{{end}} of {{total}}": "第 {{start}}–{{end}} 项，共 {{total}} 项"
+}

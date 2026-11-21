@@ -1,0 +1,15 @@
+{
+  "fixed": {
+    "file_version": "1.0.0.0"
+  },
+  "info": {
+    "0804": {
+      "ProductVersion": "1.0.0",
+      "CompanyName": "Localizer",
+      "FileDescription": "Devin 与 Antigravity 界面汉化工具",
+      "LegalCopyright": "Copyright (c) 2026 Localizer",
+      "ProductName": "界面汉化工具",
+      "Comments": "管理 Devin 和 Antigravity 的界面词典与本地原始资源备份"
+    }
+  }
+}

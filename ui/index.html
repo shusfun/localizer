@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'">
+  <title>界面汉化工具</title>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/components.css">
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="titlebar" id="titlebar">
+    <div class="titlebar-drag" id="titlebar-drag">
+      <div class="brand-cluster">
+        <img class="brand-logo" id="brand-logo" src="/logo.svg" alt="">
+        <span class="wordmark">界面汉化工具</span>
+      </div>
+    </div>
+    <div class="titlebar-right">
+      <div class="titlebar-tools">
+        <button type="button" class="icon-btn" id="theme-toggle" title="主题：跟随系统" aria-label="主题：跟随系统"></button>
+      </div>
+      <div class="window-controls">
+        <button type="button" class="caption-btn" id="minimize" title="最小化" aria-label="最小化"></button>
+        <button type="button" class="caption-btn" id="maximize" title="最大化" aria-label="最大化"></button>
+        <button type="button" class="caption-btn caption-close" id="close" title="关闭窗口" aria-label="关闭窗口"></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail">
+      <nav class="rail-nav" aria-label="目标应用">
+        <button type="button" class="rail-item" data-app="devin" aria-label="Devin" aria-pressed="true">
+          <span class="rail-top">
+            <span class="target-emblem static-icon" id="rail-icon-devin" aria-hidden="true"></span>
+            <span class="rail-heading">
+              <span class="rail-name">Devin</span>
+              <span class="rail-ver" id="rail-ver-devin" aria-hidden="true">—</span>
+            </span>
+            <span class="rail-dot" id="rail-dot-devin" aria-hidden="true"></span>
+          </span>
+          <span class="meter-track rail-meter" aria-hidden="true">
+            <span class="meter-fill meter-ok" id="rail-fill-devin"></span>
+          </span>
+          <span class="rail-foot" aria-hidden="true">
+            <span class="rail-sub" id="rail-meta-devin">—</span>
+            <span class="rail-gap" id="rail-gap-devin">—</span>
+          </span>
+        </button>
+
+        <button type="button" class="rail-item" data-app="agy" aria-label="Antigravity" aria-pressed="false">
+          <span class="rail-top">
+            <span class="target-emblem static-icon" id="rail-icon-agy" aria-hidden="true"></span>
+            <span class="rail-heading">
+              <span class="rail-name">Antigravity</span>
+              <span class="rail-ver" id="rail-ver-agy" aria-hidden="true">—</span>
+            </span>
+            <span class="rail-dot" id="rail-dot-agy" aria-hidden="true"></span>
+          </span>
+          <span class="meter-track rail-meter" aria-hidden="true">
+            <span class="meter-fill meter-ok" id="rail-fill-agy"></span>
+          </span>
+          <span class="rail-foot" aria-hidden="true">
+            <span class="rail-sub" id="rail-meta-agy">—</span>
+            <span class="rail-gap" id="rail-gap-agy">—</span>
+          </span>
+        </button>
+      </nav>
+
+      <div class="rail-footer">
+        <span id="cache-size" class="cache-text">缓存 —</span>
+        <button type="button" id="clean" class="btn btn-ghost btn-sm">清理</button>
+      </div>
+    </aside>
+
+    <main id="main" aria-busy="true">
+      <section class="workspace-bar" aria-label="应用汉化工作区">
+        <div class="workspace-head">
+          <div class="app-identity">
+            <span class="target-emblem workspace-emblem static-icon" id="workspace-icon" aria-hidden="true"></span>
+            <h1 id="app-name">Devin</h1>
+            <span id="version" class="version-tag"></span>
+            <span id="status-badge" class="badge">
+              <span class="badge-dot" aria-hidden="true"></span>
+              <span id="status">正在读取状态</span>
+            </span>
+          </div>
+          <div class="workspace-actions">
+            <button type="button" class="btn btn-ghost task" id="restore">恢复原版</button>
+            <button type="button" class="btn task" id="open">启动应用</button>
+            <button type="button" class="btn btn-primary task" id="apply">应用汉化</button>
+          </div>
+        </div>
+        <div class="workspace-prefs">
+          <div id="devin-info" class="pref-hint">应用汉化后，在 Devin「首选项 → 显示语言」切换为简体中文即可</div>
+          <div id="agy-info" class="pref-controls" hidden>
+            <label class="inline-field">
+              <span>显示语言</span>
+              <select id="language" class="select-ctrl btn-sm">
+                <option value="zh-CN">简体中文</option>
+                <option value="en">English</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <div id="notice" class="notice" role="status" hidden>
+        <span id="notice-text"></span>
+        <button type="button" id="notice-close" class="icon-btn icon-btn-sm" aria-label="关闭提示" title="关闭提示"></button>
+      </div>
+
+      <div id="job-strip" class="job-strip" role="status" hidden>
+        <div class="job-main">
+          <span id="job-text" class="job-title"></span>
+          <span id="job-sub" class="job-sub"></span>
+        </div>
+        <div class="meter-track" aria-hidden="true">
+          <div id="job-bar-fill" class="meter-fill"></div>
+        </div>
+      </div>
+
+      <section class="inventory" aria-label="界面词条">
+        <div class="inventory-head">
+          <div class="inventory-bar">
+            <div class="seg-group" role="group" aria-label="状态筛选">
+              <button type="button" class="seg-btn" data-filter="" id="filter-all" aria-pressed="true">
+                <span>全部</span>
+                <span id="total-all" class="seg-count">—</span>
+              </button>
+              <button type="button" class="seg-btn" data-filter="translated" id="filter-translated" aria-pressed="false">
+                <span>已有译文</span>
+                <span id="translated" class="seg-count">—</span>
+              </button>
+              <button type="button" class="seg-btn" data-filter="missing" id="filter-missing" aria-pressed="false">
+                <span>待补</span>
+                <span id="missing" class="seg-count">—</span>
+              </button>
+              <button type="button" class="seg-btn" data-filter="kept" id="filter-kept" aria-pressed="false">
+                <span>保留原文</span>
+                <span id="kept" class="seg-count">—</span>
+              </button>
+            </div>
+            <div class="inventory-tools">
+              <button type="button" class="btn btn-ghost btn-sm task" id="scan">扫描</button>
+              <button type="button" class="btn btn-ghost btn-sm task" id="import">导入</button>
+              <button type="button" class="btn btn-ghost btn-sm task" id="export">导出</button>
+              <span class="tool-sep" aria-hidden="true"></span>
+              <button type="button" class="btn btn-sm" id="translate">翻译缺口</button>
+            </div>
+          </div>
+
+          <div class="filter-bar">
+            <div class="search-field">
+              <span class="search-icon static-icon" id="search-icon" aria-hidden="true"></span>
+              <input type="search" id="query" class="input-ctrl search-input" aria-label="搜索词条" placeholder="搜索原文、译文或词条键">
+              <kbd class="kbd-cap" aria-hidden="true">/</kbd>
+            </div>
+            <label class="inline-field">
+              <span class="field-label">分组</span>
+              <select id="group" class="select-ctrl group-select">
+                <option value="">全部</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="table-wrap" id="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="col-source">原文</th>
+                <th class="col-target">译文</th>
+                <th class="col-state">状态与操作</th>
+              </tr>
+            </thead>
+            <tbody id="results"></tbody>
+          </table>
+          <div id="empty" class="empty-state" hidden>
+            <div id="empty-text" class="empty-copy">没有符合当前筛选条件的词条。</div>
+            <button type="button" id="reset-filters" class="btn btn-sm">清空筛选条件</button>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <span id="page-label" class="page-meta"></span>
+          <div class="page-actions">
+            <button id="prev" type="button" class="btn btn-sm">上一页</button>
+            <button id="next" type="button" class="btn btn-sm">下一页</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+  <dialog id="translate-dialog" class="modal" aria-labelledby="translate-title">
+    <form method="dialog">
+      <div class="modal-head">
+        <h2 id="translate-title">用本机模型批量补译</h2>
+      </div>
+      <div class="modal-body">
+        <div class="detect-card" id="detect-card">
+          <div class="detect-main">
+            <div class="detect-row">
+              <span id="detect-badge" class="badge">
+                <span class="badge-dot" aria-hidden="true"></span>
+                <span id="detect-label">正在识别本机服务…</span>
+              </span>
+              <span id="detect-backend" class="version-tag" hidden></span>
+            </div>
+            <div id="detect-detail" class="detect-detail">自动识别运行中的 Mistral 服务与模型</div>
+          </div>
+          <button type="button" class="icon-btn icon-btn-sm" id="detect-refresh" title="重新检测本机服务" aria-label="重新检测本机服务"></button>
+        </div>
+
+        <label class="dialog-field">
+          <span>补译数量</span>
+          <select id="limit" class="select-ctrl">
+            <option value="40">先补 40 条</option>
+            <option value="200">先补 200 条</option>
+            <option value="0" id="limit-all-opt">全部待补词条</option>
+          </select>
+        </label>
+
+        <details class="fold-panel" id="model-override">
+          <summary class="fold-summary" id="override-summary">
+            <span class="fold-chevron static-icon" id="override-chevron" aria-hidden="true"></span>
+            <span class="fold-title">自定义接口与模型</span>
+            <span id="override-pill" class="badge" hidden>已指定</span>
+          </summary>
+          <div class="fold-body">
+            <label class="dialog-field">
+              <span>本地接口</span>
+              <input id="endpoint" class="input-ctrl" placeholder="留空则自动连接识别到的服务">
+            </label>
+            <label class="dialog-field">
+              <span>模型名称</span>
+              <input id="model" class="input-ctrl" list="detected-models" placeholder="留空则使用当前默认模型" maxlength="160">
+            </label>
+            <datalist id="detected-models"></datalist>
+          </div>
+        </details>
+
+        <div id="translate-error" class="notice notice-error" role="alert" hidden></div>
+      </div>
+      <div class="dialog-actions">
+        <button value="cancel" class="btn btn-ghost">取消</button>
+        <button type="button" id="start" class="btn btn-primary">开始翻译</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="clean-dialog" class="modal" aria-labelledby="clean-title">
+    <form method="dialog">
+      <div class="modal-head">
+        <h2 id="clean-title">清理缓存文件</h2>
+      </div>
+      <div class="modal-body">
+        <div id="clean-summary" class="dialog-copy"></div>
+      </div>
+      <div class="dialog-actions">
+        <button value="cancel" class="btn btn-ghost">取消</button>
+        <button id="confirm-clean" type="button" class="btn btn-danger-outline">清理缓存</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
