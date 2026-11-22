@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/base64"
 	"encoding/hex"
@@ -15,6 +16,44 @@ import (
 
 const devinLegacyExtension = "devin-zh.devin-zh-hans"
 const devinPack = "devin-language-pack.vsix"
+
+func devinWebLocale(original []byte, rows []Row) ([]fileChange, error) {
+	const languageList = "gu=[{code:"
+	const endOfList = "]})))"
+	const defaultLocale = "return localStorage.getItem(eR)||`en`"
+	const fallbackLocale = "catch{return`en`}}function JL"
+	start := bytes.Index(original, []byte(languageList))
+	if start < 0 || bytes.Count(original, []byte(languageList)) != 1 ||
+		bytes.Count(original, []byte(defaultLocale)) != 1 || bytes.Count(original, []byte(fallbackLocale)) != 1 {
+		return nil, errors.New("Devin 会话语言入口与支持的版本不一致")
+	}
+	end := bytes.Index(original[start:], []byte(endOfList))
+	if end < 0 {
+		return nil, errors.New("Devin 会话语言列表结构不匹配")
+	}
+	end += start
+	groups := map[string]map[string]string{}
+	for _, row := range rows {
+		if row.State != "translated" {
+			continue
+		}
+		_, key, _ := strings.Cut(row.Key, ".")
+		if groups[row.Group] == nil {
+			groups[row.Group] = map[string]string{}
+		}
+		groups[row.Group][key] = row.Text
+	}
+	data := append([]byte("export default "), jsonBytes(groups)...)
+	data = append(data, ';', '\n')
+	const registration = ",{code:'zh-CN',label:'简体中文',translation:()=>import('./local-locale-zh-CN.js').then(m=>m.default)}"
+	entry := make([]byte, 0, len(original)+len(registration))
+	entry = append(entry, original[:end]...)
+	entry = append(entry, registration...)
+	entry = append(entry, original[end:]...)
+	entry = bytes.Replace(entry, []byte(defaultLocale), []byte("return localStorage.getItem(eR)||`zh-CN`"), 1)
+	entry = bytes.Replace(entry, []byte(fallbackLocale), []byte("catch{return`zh-CN`}}function JL"), 1)
+	return []fileChange{{devinData, data}, {devinEntry, entry}}, nil
+}
 
 func verifyDevinInstall(dir string) error {
 	productPath, err := noLinks(dir, devinProduct)
@@ -31,6 +70,12 @@ func verifyDevinInstall(dir string) error {
 	var product struct{ Checksums map[string]string }
 	if err := readJSON(productPath, &product); err != nil {
 		return err
+	}
+	const outPrefix = "resources/app/out/"
+	for _, name := range []string{devinEntry, devinData} {
+		if _, protected := product.Checksums[strings.TrimPrefix(name, outPrefix)]; protected {
+			return errors.New("Devin 会话语言入口在原版校验清单中，无法应用会话汉化")
+		}
 	}
 	return verifyDevinChecksums(filepath.Join(dir, "resources", "app", "out"), product.Checksums)
 }
@@ -57,6 +102,17 @@ func devinLocaleArgs(locale string) []string {
 	return []string{"--locale=" + locale, "--disable-extension", devinLegacyExtension}
 }
 
+func devinWebLocaleApplied(root string) bool {
+	var identity Identity
+	if err := readJSON(filepath.Join(root, "devin", "identity.json"), &identity); err != nil {
+		return false
+	}
+	return identity.Digests[devinProduct] == devinProductHash &&
+		identity.Digests[devinWorkbenchHTML] == devinWorkbenchHTMLHash &&
+		identity.Digests[devinSessionsHTML] == devinSessionsHTMLHash &&
+		identity.Digests[devinData] != ""
+}
+
 func (s *Service) devinLaunchLocale() string {
 	var locale string
 	if readJSON(filepath.Join(s.root, "devin", "launch-locale.json"), &locale) == nil && locale == "zh-cn" {
@@ -81,7 +137,7 @@ func installDevinLanguagePack(ctx context.Context, root, dir string, t target) e
 	return nil
 }
 
-func (s *Service) applyDevinLocale(t target, restore bool) (message string, err error) {
+func (s *Service) applyDevinLocale(t target, rows []Row, restore bool) (message string, err error) {
 	op := operation()
 	s.trace(op, "apply.begin", map[string]any{"app": t.id, "restore": restore})
 	defer func() {
@@ -93,7 +149,7 @@ func (s *Service) applyDevinLocale(t target, restore bool) (message string, err 
 	} else if running {
 		return "", errors.New("请先退出 Devin，再切换启动语言")
 	}
-	if restore && !isStockInstall(dir, t) {
+	if restore && (hasLegacyDevinFiles(dir) || devinWebLocaleApplied(s.root)) {
 		if _, err := prepare(s.root, t, nil, Pref{}, true); err != nil {
 			return "", fmt.Errorf("无法安全恢复 Devin 资源，请使用同版本官方安装包修复：%w", err)
 		}
@@ -115,8 +171,24 @@ func (s *Service) applyDevinLocale(t target, restore bool) (message string, err 
 		if err != nil {
 			return "", err
 		}
+		original, err := ensureOriginal(s.root, t, devinEntry, devinEntryHash)
+		if err != nil {
+			return "", err
+		}
+		changes, err := devinWebLocale(original, rows)
+		if err != nil {
+			return "", err
+		}
+		err = applyFiles(s.root, dir, t, changes)
+		s.trace(op, "apply.web_locale", map[string]any{"success": err == nil})
+		if err != nil {
+			return "", err
+		}
+		if err := os.Remove(filepath.Join(s.root, t.id, "refresh")); err != nil && !errors.Is(err, os.ErrNotExist) {
+			return "", err
+		}
 		locale = "zh-cn"
-		message = "已安装中文语言包。首次启动如仍显示英文，请退出 Devin 后再点「启动应用」"
+		message = "已写入中文词典。启动 Devin 后，可在「首选项 → 显示语言」选择简体中文"
 	}
 	if err := jsonAtomic(filepath.Join(s.root, t.id, "launch-locale.json"), locale); err != nil {
 		return "", err

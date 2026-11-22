@@ -544,3 +544,27 @@ func TestDevinIntegrityAndBundledLanguagePack(t *testing.T) {
 		t.Fatal("an untranslated title-cased action was marked as a proper name")
 	}
 }
+
+func TestDevinWebLocaleOnlyWritesTranslationResources(t *testing.T) {
+	stock := []byte("gu=[{code:`en`}]})))function qL(){try{return localStorage.getItem(eR)||`en`}catch{return`en`}}function JL(){}")
+	changes, err := devinWebLocale(stock, []Row{
+		{Key: "settings.keyboardShortcuts.commands.sessionRename", Group: "settings", Text: "重命名会话", State: "translated"},
+		{Key: "settings.brand", Group: "settings", Text: "Devin", State: "kept"},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(changes) != 2 || changes[0].Name != devinData || changes[1].Name != devinEntry {
+		t.Fatal("only the translation and the web language entry may be written")
+	}
+	if !bytes.Contains(changes[0].Data, []byte(`"keyboardShortcuts.commands.sessionRename":"重命名会话"`)) || bytes.Contains(changes[0].Data, []byte(`"brand"`)) {
+		t.Fatal("invalid bundled session dictionary")
+	}
+	entry := string(changes[1].Data)
+	if !strings.Contains(entry, "code:'zh-CN'") || !strings.Contains(entry, "localStorage.getItem(eR)||`zh-CN`") {
+		t.Fatal("Chinese must be registered and selected when there is no stored preference")
+	}
+	if _, err := devinWebLocale([]byte("unsupported entry"), nil); err == nil {
+		t.Fatal("accepted an incompatible web language entry")
+	}
+}

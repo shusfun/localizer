@@ -119,7 +119,7 @@ function updateControls() {
   const applyBtn = element('apply');
   applyBtn.disabled = pending || !ready || jobHere || !panel.Installed;
   applyBtn.textContent = current === 'devin'
-    ? '准备中文启动'
+    ? (panel?.NeedsSync ? '同步词典更新' : '准备中文启动')
     : panel?.NeedsSync && panel?.Applied
     ? '同步词典更新'
     : panel?.Applied

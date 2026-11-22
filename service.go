@@ -95,9 +95,6 @@ func (s *Service) settings(id string) (Pref, error) {
 	return pref, err
 }
 func (s *Service) markRefresh(id string) error {
-	if id == "devin" {
-		return nil
-	}
 	t, err := getTarget(id)
 	if err != nil {
 		return err
@@ -147,6 +144,12 @@ func (s *Service) statusState(t target) (string, bool, bool, bool, bool) {
 		return "有未完成的资源更新", true, true, true, true
 	}
 	if t.id == "devin" {
+		if devinWebLocaleApplied(s.root) {
+			if _, err := os.Stat(filepath.Join(s.root, t.id, "refresh")); err == nil {
+				return "简体中文 · 词典待同步", true, true, true, true
+			}
+			return "简体中文 · 编辑器和会话", true, true, true, false
+		}
 		if hasLegacyDevinFiles(dir) {
 			return "旧版汉化 · 待恢复原版", true, false, true, false
 		}
@@ -411,10 +414,6 @@ func (s *Service) Apply(id string, restore bool) (string, error) {
 		s.mu.Unlock()
 		return "", errors.New("请先等当前应用的翻译结束后再应用或恢复")
 	}
-	if id == "devin" {
-		s.mu.Unlock()
-		return s.applyDevinLocale(t, restore)
-	}
 	pref, err := s.settings(id)
 	if err != nil {
 		s.mu.Unlock()
@@ -427,6 +426,9 @@ func (s *Service) Apply(id string, restore bool) (string, error) {
 	}
 	rows := merge(s.inventories[id], cat)
 	s.mu.Unlock()
+	if id == "devin" {
+		return s.applyDevinLocale(t, rows, restore)
+	}
 
 	op := operation()
 	s.trace(op, "apply.begin", map[string]any{"app": id, "restore": restore})
