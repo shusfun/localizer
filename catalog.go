@@ -182,17 +182,25 @@ func makeInventory(id string, extra map[string]string) inventory {
 	if id == "devin" {
 		var en struct{ Namespaces map[string]map[string]string }
 		var zh map[string]map[string]string
-		var supplement map[string]string
+		var supplement, reviewedKeeps map[string]string
 		_ = parseJSON(asset("assets/devin-en.json"), &en)
 		_ = parseJSON(asset("assets/devin-zh.json"), &zh)
 		_ = parseJSON(asset("assets/devin-supplement.json"), &supplement)
+		_ = parseJSON(asset("assets/devin-reviewed-keeps.json"), &reviewedKeeps)
 		for group, table := range en.Namespaces {
 			for key, source := range table {
 				text := zh[group][key]
 				if (text == "" || text == source) && supplement[source] != "" {
 					text = supplement[source]
 				}
-				add(group+"."+key, group, source, text)
+				fullKey := group + "." + key
+				add(fullKey, group, source, text)
+				if keptSource, ok := reviewedKeeps[fullKey]; ok && keptSource == source {
+					row := inv.byKey[fullKey]
+					row.Text, row.State, row.DefaultState = "", "kept", "kept"
+					inv.byKey[fullKey] = row
+					inv.rows[len(inv.rows)-1] = row
+				}
 			}
 		}
 	} else {
@@ -263,7 +271,7 @@ func validateCatalog(c Catalog, t target, inv inventory) error {
 	var invalid []string
 	for key, value := range c.Messages {
 		row, ok := inv.byKey[key]
-		if !ok || row.Source != value.Source || (!value.Keep && value.Text != "" && (row.State == "kept" || !validText(row.Source, value.Text))) {
+		if !ok || row.Source != value.Source || (!value.Keep && value.Text != "" && (retained(row.Source) || !validText(row.Source, value.Text))) {
 			invalid = append(invalid, key)
 		}
 	}

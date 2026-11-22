@@ -2,8 +2,6 @@ package main
 
 import (
 	"bytes"
-	"crypto/sha256"
-	"encoding/base64"
 	"encoding/binary"
 	"encoding/json"
 	"errors"
@@ -36,93 +34,6 @@ type Pref struct {
 	Language string
 	Endpoint string
 	Model    string
-}
-
-func devinPatch(original, workbench, sessions, product []byte, rows []Row, label string) ([]fileChange, error) {
-	if hash(original) != devinEntryHash {
-		return nil, errors.New("Devin 语言入口与支持的版本不一致")
-	}
-	if hash(workbench) != devinWorkbenchHTMLHash || hash(sessions) != devinSessionsHTMLHash {
-		return nil, errors.New("Devin 会话页面入口与支持的版本不一致")
-	}
-	const marker = "gu=[{code:"
-	start := bytes.Index(original, []byte(marker))
-	if start < 0 {
-		return nil, errors.New("未找到 Devin 语言列表")
-	}
-	end := bytes.Index(original[start:], []byte("]})))"))
-	if end < 0 {
-		return nil, errors.New("Devin 语言列表结构不匹配")
-	}
-	end += start
-	groups := map[string]map[string]string{}
-	for _, row := range rows {
-		if row.State == "translated" {
-			_, key, _ := strings.Cut(row.Key, ".")
-			if groups[row.Group] == nil {
-				groups[row.Group] = map[string]string{}
-			}
-			groups[row.Group][key] = row.Text
-		}
-	}
-	generated := append([]byte("export default "), jsonBytes(groups)...)
-	generated = append(generated, ';', 10)
-	entry := fmt.Sprintf(", {code:'zh-CN',label:%s,translation:()=>import('./local-locale-zh-CN.js').then(m=>m.default)}", jsonBytes(label))
-	output := append(append(append([]byte{}, original[:end]...), []byte(entry)...), original[end:]...)
-	inject := func(document []byte) ([]byte, error) {
-		if bytes.Contains(document, []byte("devin-localizer.js")) {
-			return nil, errors.New("原版页面包含未预期的汉化入口")
-		}
-		lower := bytes.ToLower(document)
-		index := bytes.LastIndex(lower, []byte("</body>"))
-		if index < 0 {
-			return nil, errors.New("Devin HTML 页面结构不匹配")
-		}
-		result := append([]byte{}, document[:index]...)
-		result = append(result, []byte("<script src=\"./devin-localizer.js\"></script>\n")...)
-		result = append(result, document[index:]...)
-		return result, nil
-	}
-	workbench, err := inject(workbench)
-	if err != nil {
-		return nil, err
-	}
-	sessions, err = inject(sessions)
-	if err != nil {
-		return nil, err
-	}
-	var doc map[string]json.RawMessage
-	if err = parseJSON(product, &doc); err != nil || doc["checksums"] == nil {
-		return nil, errors.New("Devin product.json 校验清单结构不匹配")
-	}
-	var checksums map[string]string
-	if err = parseJSON(doc["checksums"], &checksums); err != nil || checksums == nil {
-		return nil, errors.New("Devin product.json 校验清单结构不匹配")
-	}
-	for name, data := range map[string][]byte{"vs/code/electron-browser/workbench/workbench.html": workbench, "vs/sessions/electron-browser/sessions.html": sessions} {
-		if _, ok := checksums[name]; !ok {
-			return nil, fmt.Errorf("Devin 校验清单缺少 %s", name)
-		}
-		sum := sha256.Sum256(data)
-		checksums[name] = base64.RawStdEncoding.EncodeToString(sum[:])
-	}
-	doc["checksums"] = jsonBytes(checksums)
-	formatted, err := json.MarshalIndent(doc, "", "\t")
-	if err != nil {
-		return nil, err
-	}
-	product = append(formatted, '\n')
-	runtime := append([]byte{}, asset("assets/devin-runtime.js")...)
-	runtime = append(runtime, '\n')
-	return []fileChange{
-		{devinData, generated},
-		{devinEntry, output},
-		{devinProduct, product},
-		{devinWorkbenchHTML, workbench},
-		{devinSessionsHTML, sessions},
-		{devinWorkbenchScript, runtime},
-		{devinSessionsScript, runtime},
-	}, nil
 }
 
 type archiveNode struct {

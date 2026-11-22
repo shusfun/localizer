@@ -217,7 +217,9 @@
 "toggleTimestampFormat": "{{time}}。在相对时间和绝对时间之间切换",
 "toggleTurn": "折叠或展开此请求的行",
 "viewInContext": "在上下文中查看",
-"watchLive": "实时观看 Devin 工作"
+"watchLive": "实时观看 Devin 工作",
+"facet.shell": "终端命令",
+"kind.shell": "终端命令"
 },
 "admin": {
 "billingPhases.dollarPhaseRepricingHelp": "在按美元计价的阶段，承诺内 ACU 价格也会把 Devin 和 Review 的 ACU 折算为美元，因此修改它会重算该阶段的历史价格。平台费变更仅适用于新的 Desktop/CLI 用量。",
@@ -532,7 +534,9 @@
 "userTrust.suspicionLevel": "可疑程度",
 "userTrust.tab": "信任",
 "users": "用户",
-"watchDevinWork": "关注工作"
+"watchDevinWork": "关注工作",
+"billingPhases.phaseEditRuleHelp": "桌面端和 CLI 会缓存阶段定价 5 分钟。请至少提前 5 分钟保存阶段边界和计费模式的调整。每次请求按发起时生效的阶段计费模式结算。对过去的阶段在 ACU 和美元计费之间切换时，已记录的用量不会重新计费。",
+"lifeguardEvals.performance.description": "每个点表示一个路由组最近一次成功的评测运行（对应 <code>--model</code> 参数），连线连接同一模型可选的推理档位。默认选中召回率和成本帕累托前沿上各模型的所有档位，可切换模型或运行记录进行比较。"
 },
 "adminBackfill": {
 "analysis": "重新运行会话分析",
@@ -581,7 +585,9 @@
 "progress": "预算回填正在进行。请保持此页面打开直至结束。",
 "result": "新增链接：{{added}}。覆盖链接：{{moved}}。移除链接：{{removed}}。创建的预算：{{budgets}}。归档的预算：{{archived}}。失去组织归属的用户上限：{{userLimits}}。",
 "success": "预算回填已在 {{duration}} 秒内完成。",
-"title": "预算"
+"title": "预算",
+"confirmDescription": "将 {{accountId}} 下符合条件的组织同步到预算。操作可能创建预算，并用旧组织数据替换关联预算的名称、上限和状态。现有预算的上级关系保持不变。ACU 镜像需要启用 combined-org-acu-limit。governance-budget 达到 write 或更高权限时，同步预算成员授权。所有变更在同一事务中提交。",
+"description": "按当前功能开关将符合条件的组织同步到预算。操作可能创建预算，并用旧组织数据替换关联预算的名称、上限和状态。现有预算的上级关系保持不变。"
 },
 "adminGovernance": {
 "account": "账号：{{accountId}}",
@@ -875,7 +881,11 @@
 "taskRequeueDescription": "仅将本队列中此任务的失败作业重置为重新运行；其他任务不受影响，运行历史会保留。去重键已处于待处理状态的作业会被跳过。",
 "taskRequeueTitle": "将 {{queue}} 上 {{task}} 的失败任务重新排队",
 "taskRequeued_one": "已将 {{queue}} 上 {{task}} 的 {{count}} 个失败任务重新排队",
-"taskRequeued_other": "已将 {{queue}} 上 {{task}} 的 {{count}} 个失败任务重新排队"
+"taskRequeued_other": "已将 {{queue}} 上 {{task}} 的 {{count}} 个失败任务重新排队",
+"batch.confirmDescription": "为每个有效条目运行 {{task}}。任务使用参数指定的账号，无需账号的任务使用系统账号。已有相同去重键的待处理任务会被跳过。已完成的批次无法撤销。",
+"batch.help": "每条记录包含符合任务架构的 args，以及可选的 dedupe_key。最多 100,000 条或 64 MiB。请求分批发送，每 100 个任务独立提交。无效条目会被跳过。请保持对话框打开直至完成。错误消息和审计日志均省略参数。",
+"requests.description": "仅标记为可申请的任务支持提交申请。另一名拥有 jobs.request 权限的成员会审核任务及其完整参数。批准后，任务进入队列。参数会随申请保存，Slack 和审计日志均省略参数。",
+"requests.sectionHelp": "此处显示拥有 jobs.request 权限的成员提交的单个任务入队申请。申请者以外的任一权限持有者均可批准或拒绝。批准后按保存的原参数入队。待审核申请在 24 小时后过期。"
 },
 "adminLoadError": {
 "askAccountOwner": "请账号所有者将你加入该账号，之后即可查看。",
@@ -990,7 +1000,8 @@
 "usersError": "无法获取用户：{{error}}",
 "usersHint": "点击“获取用户”以获取第一页。在你执行此操作之前，不会发起任何成员资格请求。",
 "usersTab": "组织用户",
-"usersTitle": "组织用户"
+"usersTitle": "组织用户",
+"description": "成员关系按需查询，工具不保存查询结果。优先匹配同一主机上的提供方用户名，其次匹配公开资料中的邮箱。公开邮箱仅供参考，无法证明账号归属或授权。GitHub App 需要组织成员的只读权限。"
 },
 "adminPlgGitlab": {
 "archived": "已归档",
@@ -1029,7 +1040,8 @@
 "selectProfile": "选择 GitLab 配置文件",
 "selectResourcesHint": "组和项目会自动加载。选择一个或多个，然后加载其所有者。",
 "title": "GitLab 群组和项目",
-"visibilityColumn": "可见性"
+"visibilityColumn": "可见性",
+"description": "使用企业用户已经绑定的 GitLab OAuth 身份读取数据。每一页都按该用户权限实时读取，工具不保存结果。所有者邮箱来自 GitLab 成员与公开资料 API，仅供参考，无法证明身份归属或授权。"
 },
 "adminPromotionOwner": {
 "budgetHint": "以美元或 ACU 计，取决于账号套餐的计费方式。请先选择企业或组织。",
@@ -2152,7 +2164,8 @@
 "version": "版本",
 "versionLegacy": "旧版",
 "versionNewest": "最新",
-"versionSettings": "分析设置"
+"versionSettings": "分析设置",
+"overview.promotions.balanceDetails": "优惠额度会自动抵扣符合条件的用量。卡片显示每项优惠额度的累计 ACU 用量和总额。\n「已用完」表示 ACU 已全部消耗。「已过期」表示剩余额度无法继续使用。"
 },
 "announcementCallout": {
 "close": "关闭",
@@ -2766,7 +2779,9 @@
 "upgrade.recommendedForYou": "为你推荐",
 "upgrade.selectAnotherPlan": "选择其他方案",
 "upgrade.trialDescription": "解锁 Devin 的全部能力。14 天内不会从你的卡中扣款。你可以随时取消。",
-"upgrade.trialHeading": "领取<wbr />免费 Pro 试用"
+"upgrade.trialHeading": "领取<wbr />免费 Pro 试用",
+"errors.ipNotAllowed": "你的组织仅允许从批准的网络访问，当前网络未获批准。请连接公司网络或 VPN 后重新登录，或联系组织管理员。",
+"errors.ipNotAllowedWithAddress": "你的组织仅允许从批准的网络访问，当前 IP 地址（{{ip}}）未获批准。请连接公司网络或 VPN 后重新登录，或联系组织管理员。"
 },
 "autoRecharge": {
 "paymentFailedSubtitle": "你最近一次自动充值付款失败。请更新你的付款信息，或直接支付账单。",
@@ -4249,7 +4264,21 @@
 "wholeAcuLimit": "每会话 ACU 上限必须为整数",
 "withResponse": "含回复",
 "withSessionLink": "含会话链接",
-"you": "你"
+"you": "你",
+"booleanFalse": "假",
+"booleanTrue": "真",
+"preflightStep.webhookUrlLabel": "Webhook 地址",
+"webhookUrl": "Webhook 地址",
+"codeStep.contractBody": "$EVENT_FILE     触发事件（只读 JSON）\n$STATE_FILE     持久化 JSON，最多 64KB，跨运行保留\n$LAST_RUN_FILE  上次输出的各条目处理结果\n                （只读）：{\"items\": [{\"key\", \"status\", \"session_id\"}]}\n$OUTPUT_FILE    决策结果，必须在退出前写入：\n  {\"run\": true}                     继续启动会话\n  {\"run\": false, \"reason\": \"...\"}   跳过本次运行\n  {\"items\": [{...}, {...}]}         每个条目对应一个会话\n每次最多处理 10 个条目（上限 50 个），其余留到下次运行。\n条目的 \"id\" 标识一次工作。同一 \"INC-1\" 始终只运行一次。\n加入 \"version\"（例如上游的 updated_at），可让重新打开的条目\n作为新工作处理。会话失败的条目会解除占用，可以\n再次运行。",
+"enableIssueTrackingBody": "Devin 会将此频道的报告归类为本页跟踪的问题。更新后由 Devin 直接回复，互动中将不再显示「Devin Automation」机器人。",
+"gitlabPublicProjectWarningWithSettingsLink": "出于安全考虑，来自公开项目的事件，以及来自 gitlab.com 内部项目的事件，均不会触发自动化。所有登录到 gitlab.com 的用户均可看到内部项目。你可在 <settingsLink>GitLab 连接设置</settingsLink>中允许公开项目触发。",
+"improveAutomationPrompt": "检查自动化 {{id}}，提高每 ACU 的产出。查看最近几次运行的花费和结果，按收益与工作量的比值提出三项改进，并附上依据。说明能否用预检跳过以往没有产出的运行。更新自动化前请先征得我同意。",
+"migrateToResponderBody": "建议将用于缺陷和告警自动分诊的自动化迁移到 Devin Oncall，以提高性能和成本效益。Devin Oncall 改进了智能体运行机制和问题归类，让告警与缺陷分诊更高效。",
+"nonOrgUsersWarning": "绑定了 Devin 的组织外用户可以启动此自动化，其消息可能含有提示注入。请使用限制较严的安全配置来限制网络与工具访问，或关闭「允许组织外 Devin 用户」。",
+"removeSlackChannelWarning": "此触发器会监听 Devin 可访问的所有 Slack 频道。如果没有筛选条件，每条 Slack 消息都有可能启动它。请至少添加一个筛选条件来限定触发消息。",
+"threatScanDescription": "运行时会在这些仓库中扫描触发事件公布的威胁，包括 Cognition 和你的团队发布的威胁。若相关威胁均已关闭，则跳过本次运行。Devin 会按你的威胁模型重新排列发现项的优先级。",
+"webhookDeliveryIdHelp": "将 <code>{{deliveryIdPlaceholder}}</code> 替换为每条告警唯一的值。使用告警系统的事件 ID 或投递 ID，通过 <code>X-Devin-Delivery-Id</code>、<code>Idempotency-Key</code> 或 <code>webhook-id</code> 传递。同一值的重试投递只计一次。",
+"webhookTestCommandHelp": "将 <code>{{secretPlaceholder}}</code> 替换为你的密钥。通过 <code>X-Webhook-Secret</code> 或 <code>Authorization: Bearer</code> 请求头，也可通过 <code>secret</code> 查询参数传递。"
 },
 "autoreviewTriggers": {
 "addCondition": "添加条件",
@@ -4325,7 +4354,8 @@
 "userAlreadyAdded": "此用户已被添加。",
 "userLocationQuestion": "此用户在哪里？",
 "userPickerTitle": "选择用户",
-"userValueQuestion": "哪个 {{location}} 用户？"
+"userValueQuestion": "哪个 {{location}} 用户？",
+"effort.with": "使用"
 },
 "avatarStack": {
 "overflow_one": "还有 {{count}} 个",
@@ -5171,7 +5201,21 @@
 "workspaceSeats.tooltipIntro": "你的 Devin Teams 套餐最多支持 100 位成员。你可以为普通用户购买完整席位。",
 "workspaceSeats.unassignedCanceledToast": "未指派席位已取消",
 "workspaceSeats.unassignedFullSeats": "未分配的完整席位",
-"workspaceSeats.unassignedSuffix": "{{seats}} 个未分配"
+"workspaceSeats.unassignedSuffix": "{{seats}} 个未分配",
+"acuAmount_other": "{{formattedCount}} ACU",
+"autoReload.dollarsToAcus_other": "{{dollars}} = {{count}} ACU",
+"usageRequest.amountOptionTrigger_other": "+{{count}} <unit>ACU</unit>",
+"usageRequest.amountOption_other": "+{{count}} ACU",
+"autoReloadLimitMemberDescription": "你的组织已达到每月自动充值上限。下个计费周期开始前，系统将暂停自动充值。请联系组织管理员提高每月自动充值上限。",
+"autoReloadLimitOwnerDescription": "你已达到每月自动充值上限。下个计费周期开始前，系统将暂停自动充值。要继续使用 Devin，可在计费设置中提高每月自动充值上限。<learnMore>了解详情</learnMore>",
+"costBreakdown.ciChecksInfo": "会话创建首个拉取请求后，Devin 检查 CI 状态和读取日志所产生的费用，包括检查所用的云计算资源。\n如果占比偏高，请优化耗时的 CI，并修复偶发失败的检查，缩短等待时间。",
+"costBreakdown.connectedMcpsInfo": "已连接的 MCP 是你添加的服务，包括将其列入会话上下文的费用，以及每次调用其工具和读取结果的费用。Devin 内置工具另计。\n如果占比偏高，请移除团队不用的服务。",
+"costBreakdown.rulesInfo": "常驻规则会加载到适用的每次会话中。例如，使用某个仓库时会载入其根目录的 AGENTS.md。即使任务用不到，加载仍计费。嵌套的 AGENTS.md 和使用路径模式的规则，仅在会话触及相关路径时加载。\n如果占比偏高，请精简常驻规则，把局部指引移到嵌套的 AGENTS.md 或带路径模式的规则中。",
+"costBreakdown.skillsInfo": "技能使用前，会话上下文仅包含其名称和描述。完整指引只在使用时加载和计费。\n如果占比偏高，可在「自定义」中查看最常用的技能，精简较长的技能，或细化描述，让技能在适用时才加载。",
+"costBreakdown.vmLlmInfo": "云计算费用取决于会话使用的机器和运行时长。\n若云计算占比偏高，请优化耗时的构建和测试以缩短会话，并在资源充足时选用较小规格的机器。",
+"hardCap.continueNewBody": "已达到会话上限。Devin 更擅长处理范围明确的单项任务。可在新会话中继续，新会话会自动引用当前会话。<lineBreak /><lineBreak />以后可将工作拆成较小的任务，以<lnk>提高效率<icon /></lnk>。",
+"increaseOrgLimitOwnerEnterpriseDescription": "你的组织已用完本计费周期的企业 {{unit}} 用量额度。要继续使用 Devin，可提高组织用量上限。<learnMore>了解详情</learnMore>",
+"paymentDeclinedMemberDescription": "组织上次付款未成功。管理员需要更新付款信息才能继续订阅。有疑问请联系 <supportLink>support@cognition.ai</supportLink>。"
 },
 "billingBanner": {
 "assignToDevin": "分配给 Devin",
@@ -5407,7 +5451,8 @@
 "usageTruncated": "由于此标签超出分析上限，用量是基于截断的会话列表计算的",
 "usageTruncatedAny": "由于某个标签超出分析上限，部分用量数据是基于截断的会话列表计算的",
 "users": "用户",
-"viewerYou": "{{name}}（你）"
+"viewerYou": "{{name}}（你）",
+"acusValue": "{{value}} ACU"
 },
 "blockedAction": {
 "permissionDeniedMessage": "你无权在此会话中执行此操作。请向会话所有者申请访问权限。",
@@ -6438,7 +6483,9 @@
 "visibility.ariaLabel": "看板可见性",
 "visibility.private": "专用",
 "visibility.privateBoardAria": "私有看板",
-"visibility.public": "公开"
+"visibility.public": "公开",
+"labels.devins": "Devin 实例",
+"settingsPage.thisDetachesTheSharedAgentFromThisBoard": "此操作会将每个人与此看板上的共享智能体解除关联。会话仍保留在其所有者的会话列表中。智能体面板中的下一条消息会启动新的共享智能体。个人智能体不受影响。"
 },
 "botArtifacts": {
 "category.data": "数据",
@@ -7240,7 +7287,7 @@
 "settingsSecurityProfileDescription_named": "限制 {{botName}} 的会话对网络、MCP 和 git 的访问",
 "settingsSlackAppAddToChannelsSubmit": "添加",
 "settingsSlackAppAddToChannelsTitle": "将 @{{handle}} 添加到频道",
-"settingsSlackAppAdminMessage": "你好！可以帮我安装 Slack 应用 @{{handle}} 吗？这是我在 Devin 上的 {{botName}} 应用。打开此链接并点击“Allow”：{{url}}",
+"settingsSlackAppAdminMessage": "你好，可以帮我安装 Slack 应用 @{{handle}} 吗？这是我的 {{botName}} 在 Devin 上使用的应用。请打开链接并点击「允许」：\n{{url}}",
 "settingsSlackAppApprovalNotRequested": "此应用需要由 Slack 管理员安装。把链接发给他们；如果你是管理员，也可以自行批准。",
 "settingsSlackAppApprovalPending": "Slack 管理员批准后，应用会自动安装。",
 "settingsSlackAppApprove": "在 Slack 中批准",
@@ -7555,7 +7602,30 @@
 "unarchiveFailed": "无法取消归档 {{name}}",
 "unarchiveNamed": "取消归档 {{name}}",
 "unknownOwner": "未知",
-"workspace": "工作区"
+"workspace": "工作区",
+"avatarCasing.disc": "圆盘",
+"imessageGroupJoinWarning": "群组内所有人都可以给 {{botName}} 发消息并查看回复。此群组与你的其他频道共用同一个主聊天，群成员可以让它使用该聊天中的信息和已连接的工具。",
+"settingsSlackAppAutoApprovalInstructions": "Devin 会为每个 {{botName}} 创建一个 Slack 应用。Slack 管理员可设置自动批准：\n1. 在 Slack 管理设置中，前往「集成 → 已安装的应用」，打开 Devin。\n2. 点击「管理 → 管理权限」。\n3. 勾选「允许此应用安装托管的智能体应用」，点击「保存」。",
+"shareAsTemplateMessage": "把你自己分享成模板，让本组织的其他成员可以创建与你类似的 {{botName}}。写上名称、一句话描述，并用一条提示说明你的职责和工作方式，略去我的私人信息。",
+"templateDescriptionAutoResearcher": "夜间测试模型改动，只保留带来改进的方案。它每晚尝试小幅修改训练代码，早上告诉你哪些改动有效。需要一台能训练该模型的计算机。",
+"templateDescriptionSoftwareFactory": "在指定的产品领域查找缺陷、体验细节、性能和重构机会。每项改进单独提交一个小型拉取请求，并附上验证结果。它会从你合并和关闭的请求中学习，并持续提供待审改动。",
+"templateDescriptionSpikeSniffer": "发现错误率、延迟或支出的异常偏移，并找出变化。它将最近几小时与过去两周的相同时段对比，然后报告变动项和变动幅度。",
+"templateExampleAndroidEngineer": "推送通知的工单已完成。PR #733 包含 Kotlin 改动，9 项测试已通过，构建 412 正在内测。扩大测试范围前需要有人批准新的通知权限。",
+"templateExampleAnomalyWatcher": "自周二以来，德国的试用注册量下降了 38%，其他国家基本持平。现有监控未覆盖此指标。异常始于修改注册表单增值税字段的 PR #4821，可能由 Maya 负责。",
+"templateExampleAutoResearcher": "昨晚共运行 42 次实验，保留 5 次，舍弃 36 次，崩溃 1 次。验证损失从 1.83 降至 1.71，主要得益于余弦学习率和更大的批次。保留的改动已放在 autoresearch 分支。",
+"templateExampleChiefOfStaff": "上线进展：定价页已完成，文档自周一起等 Sam 审阅。我已把 Safari 上失败的测试交给测试工程师，下午 3 点会再跟进。周四上线目前没有其他阻碍。",
+"templateExampleCodeQualityEngineer": "这个月我开了 5 个小型拉取请求。1 个修复 axios 的高危漏洞，2 个移除已向全部用户开放的功能开关，另有 2 个替换已弃用的 API。每个请求都列出了通过的测试和可以合并的依据。",
+"templateExampleCodeReaper": "这周开了 3 个拉取请求，移除了 1,240 行无人使用的代码，包括旧版账单导出。测试已通过，已确认没有剩余调用方。legacy_webhooks.py 仍由定时任务按文件名调用，因此保留。",
+"templateExampleCodeReviewer": "PR #5060 合并前需修复一处缺陷。payments/refund.py 第 88 行在计算部分退款时使用了整笔订单金额，导致退款过多。我已在该行留言说明修法。",
+"templateExampleCodebaseExpert": "密码重置逻辑在 auth/reset.py 的第 40 至 92 行。令牌有签名，30 分钟后过期，仅可用一次，第 67 行负责检查。我读过代码。生产配置也可能影响有效期，本次尚未核对。",
+"templateExampleDataAnalyst": "10 月新增收入中，年付方案占 41%，9 月占 33%。图表和查询已附上。有 12 笔发票结算的企业订单尚未同步，实际比例可能更高。",
+"templateExampleMigrationEngineer": "迁移到新版支付 API 的 48 个拉取请求已合并 31 个，暂无回滚。退款批次的 Webhook 测试缺少沙箱密钥。补上密钥后，剩余 17 个可在周五前上线。",
+"templateExampleOnCallEngineer": "下午 2:32 的 API 告警很可能源自 12 分钟前上线的 PR #5044。它将数据库连接池从 50 条连接缩减到 5 条，此后日志已记录 1,200 次连接超时。已准备好回滚该变更的 PR #5046。",
+"templateExampleQaEngineer": "在 Chrome 中测试了 PR #4950。注册和密码重置通过，结账失败。添加优惠券后，「付款」按钮仍为禁用状态。录像和故障截图已附在拉取请求上。",
+"templateExampleSecurityEngineer": "这周修复了 2 处已证实的漏洞，包括 /search 中的 SQL 注入（PR #5012），另确认 4 处不可触达。旧提交中还有一个 API 密钥，需要你决定是否轮换。",
+"templateExampleSoftwareFactory": "PR #5127 已可审阅。SWF(bug) 修复恢复已删除会话时的崩溃。新增测试在修复前失败、修复后通过，录像显示现已可以恢复。你的 10 个审阅名额已用 7 个。",
+"templateExampleTriageEngineer": "已复现。日期筛选跨两个月时，导出的 CSV 为空。我在 ENG-2481 记录了复现步骤和 export_query.py 中的疑似原因。Dana 的登录问题未能复现，我已向她询问发生时间。",
+"templateExampleWorkflowImporter": "我已从交接文件接手 3 个待办任务、4 项技能、3 个连接和 2 个工作流。为避免重复运行，工作流暂时关闭。还需你登录 2 个应用。有 1 个项目在这里没有匹配项，见下文。"
 },
 "budgetAccess": {
 "canApproveLimits": "可批准限额",
@@ -7867,7 +7937,9 @@
 "questions": "❓ 有疑问？请参阅<policyLink>Citi 信息分类政策</policyLink>。",
 "restrictedData": "任何类型的受限数据。",
 "title": "证明",
-"verifyOutput": "除你现有的业务管控措施外，你还必须在任何使用前核实 AI 工具生成的所有输出的准确性。"
+"verifyOutput": "除你现有的业务管控措施外，你还必须在任何使用前核实 AI 工具生成的所有输出的准确性。",
+"prohibitedClientBody": "请勿提交非公开的客户数据，包括机构客户合同中的客户资料，以及财务、交易、KYC（了解你的客户）、付款或工资单文件中的客户资料。",
+"prohibitedWorkforceBody": "请勿提交含有用于绩效评估或招聘的员工、候选人、承包商或顾问个人数据的文件，以及含有任何受美国 HIPAA 隐私法保护的数据的文件。"
 },
 "closePrDialog": {
 "cancel": "取消",
@@ -8111,7 +8183,8 @@
 "trendDescription_other": "过去 {{count}} 天按结果统计的每日建议数",
 "trendTitle": "趋势",
 "tryAgain": "重试",
-"untitledBlocker": "无标题阻塞项"
+"untitledBlocker": "无标题阻塞项",
+"blockerGroups.impact.slowed": "{{value}} ACU"
 },
 "coachPrecheck": {
 "actions.clearPrompt": "清空提示词",
@@ -8159,7 +8232,8 @@
 "useCodeScan.caption": "这看起来涉及整个代码库，代码扫描可能更合适",
 "useCodeScan.label": "全代码库任务",
 "useCodeScan.recommendation": "运行代码扫描，在整个仓库中查找每一处实例并跟踪每个发现",
-"useCodeScan.sessionPrompt": "帮我根据此请求设置并启动代码扫描：\n\n{{prompt}}"
+"useCodeScan.sessionPrompt": "帮我根据此请求设置并启动代码扫描：\n\n{{prompt}}",
+"useCodeScan.description": "这条提示要求 Devin 在整个代码库内查找、审计或报告每一处相关实例。建议使用「代码扫描」，并行分析整个仓库并逐项跟踪发现。"
 },
 "codeScanSelect": {
 "loadFailed": "加载扫描失败",
@@ -8358,7 +8432,9 @@
 "unpinSession": "取消固定会话",
 "viewDebugCommands": "查看调试命令",
 "wakeUpDevin": "唤醒 Devin",
-"waterfallTraces": "瀑布式追踪"
+"waterfallTraces": "瀑布式追踪",
+"onboardingMockFake": "模拟",
+"onboardingMockDescription": "全屏引导会使用这里设定的方案和连接。模拟连接标记为已连接，无需实际登录。引导以新用户视角停在 {{botNamePlural}} 页面。若所有连接均为模拟，在此创建的首个 {{botName}} 也会使用它们。此过程仅对你可见。"
 },
 "common": {
 "availableToAdmins": "管理员可用",
@@ -8576,7 +8652,10 @@
 "usage.loadError": "无法加载用量",
 "usage.loading": "正在加载用量…",
 "usage.runScope": "最近一次运行使用的 ACU。如需查看更早的运行，请参阅扫描历史。",
-"usage.unavailable": "用量不可用"
+"usage.unavailable": "用量不可用",
+"description": "从代码收集并维护控制措施的证据。为每项控制引用相关材料，通过修复 PR 处理偏差，合并后重新运行。控制是否达标由评估人员判定。",
+"evidence.outcomeRow.noEvidence.detail": "本轮扫描已搜索相关来源，此控制项当前没有待处理的证据或偏差。仅凭这一点无法判断控制已达标，因为匹配器可能遗漏其他形式的证据。",
+"runAction.systemFullRescanTooltip": "重新扫描系统中所有框架的全部扫描配置，并重新映射全部标准。现有扫描和发现会保留在历史记录中。从未扫描的配置会进行首次评估。"
 },
 "complianceSidebar": {
 "deviationCount_one": "{{count}} 处偏差",
@@ -8909,7 +8988,11 @@
 "usage.percentUsed": "已使用容量的 {{percent}}%（{{consumed}} / {{limit}} ACU）",
 "usage.percentUsedOverage": "已使用容量的 {{percent}}%（{{consumed}} / {{limit}} ACU — 超出容量 {{overage}}）",
 "usage.percentUsedOverage_cloud": "已使用云容量的 {{percent}}%（{{consumed}} / {{limit}} 云 ACU — 超出容量 {{overage}}）",
-"usage.percentUsed_cloud": "已使用云容量的 {{percent}}%（{{consumed}} / {{limit}} 云 ACU）"
+"usage.percentUsed_cloud": "已使用云容量的 {{percent}}%（{{consumed}} / {{limit}} 云 ACU）",
+"acuLimitScope.mixedSelectionWarning": "所选组织使用不同的限额类型。{{cloud}} 仅统计 Devin 会话和 Devin Review，{{combined}} 统计所有产品的用量。每个组织按各自的限额类型应用该值。",
+"dashboard.monthlyTooltipLocal": "当前月度窗口内计入 ACU 限额的用量。仅统计 {{cascadeLabel}} 和终端 CLI，用量不含云端 Devin 会话。无论计费周期多长，此窗口均按月重置。",
+"usage.overallTowardLimitNote_one": "仅统计各组织限额适用的用量（{{formattedCount}} ACU）。仅限云端的限额排除 Devin Desktop 和终端 CLI。Devin Review 用量即使未按组织显示，也计入限额。",
+"usage.overallTowardLimitNote_other": "仅统计各组织限额适用的用量（{{formattedCount}} ACU）。仅限云端的限额排除 Devin Desktop 和终端 CLI。Devin Review 用量即使未按组织显示，也计入限额。"
 },
 "contextMap": {
 "detail.connections": "连接",
@@ -9173,7 +9256,8 @@
 "updateFailed": "无法更新 {{name}}。",
 "updateFromMarketplace": "从市场更新",
 "updated": "{{name}} 已更新。",
-"updating": "更新中…"
+"updating": "更新中…",
+"setUpForOrgPerMemberHint": "成员正在个人范围内分别建立此连接。也可从 Devin 市场为组织安装一次并在此连接。声明依赖该服务的插件会改用组织连接。"
 },
 "customizeSync": {
 "tooltip": "你的个人插件会在云会话、Devin CLI 和 Devin Desktop 中加载。你用 <code>devin plugins install</code> 安装的插件也会显示在这里。"
@@ -10094,7 +10178,8 @@
 "subcategories.updateLoading": "正在保存子类别更改...",
 "subcategories.updateSuccess": "子类别更改已成功保存",
 "unifiedNoSessionPermission": "你的账号还没有启动 Devin 会话的权限。请让你的企业管理员将其添加到你的角色中。",
-"welcome": "欢迎"
+"welcome": "欢迎",
+"mcpDetail.showInMarketplaceDesc": "开启后，企业用户可在市场查看并安装此 MCP。关闭后会隐藏它并阻止新安装。已安装的组织可继续使用，直到在组织中关闭或卸载它。"
 },
 "enterpriseApiKeys": {
 "page.allOrganizations": "所有组织",
@@ -10155,7 +10240,8 @@
 "shown": "在市场中显示",
 "shownInstalled_one": "已在市场中展示 · 已安装于 {{count}} 个组织",
 "shownInstalled_other": "已在市场中展示 · 已安装于 {{count}} 个组织",
-"title": "市场可用性"
+"title": "市场可用性",
+"description": "控制企业内各组织能在市场看到并安装哪些 MCP 服务。隐藏服务会阻止新安装。已安装的组织可继续使用，直到在组织中关闭或卸载它。"
 },
 "enterpriseMcp": {
 "management.allOrganizations": "所有组织",
@@ -10388,7 +10474,17 @@
 "perforceSwitchAriaLabel": "为此企业启用 Perforce",
 "perforceTurnOff": "全部关闭",
 "perforceUpdateFailed": "Perforce 更新失败：{{error}}",
-"readOnly": "只读"
+"readOnly": "只读",
+"description": "管理企业的 Perforce、代理路由（proxyrouter）和 Git 路由。可修改 Perforce 开关、代理路由、proxyrouter 出站开关、每个专用租户的 Perforce 代理开关及各 Git 连接的额外代理。页面其余内容只读。",
+"egressDescription": "这些 Unleash 开关会将企业的 Git 和 MCP 流量从 Cognition 容器转经其专用租户的 proxyrouter，使租户的代理路由生效。仅对已配置代理路由的租户有效。",
+"git.howItWorksGitManager": "git-manager 通过租户的 FRP 隧道访问各主机，再经过连接的额外代理。连接未配置额外代理时则使用租户的 TENANT_EXTRA_PROXIES。网关主机名经过租户虚拟机监控程序的代理路由节点（{{proxyrouter}}）转发到网关。",
+"git.howItWorksHypervisor": "虚拟机发起克隆或调用 Git 提供方 API 时，请求先到达租户虚拟机监控程序上的 gitproxy。租户的 Git 流量设置决定是直接访问主机、通过 HTTP 代理访问，还是交由 git-manager 处理。",
+"git.p4proxyConfirmDisable": "即将关闭租户 <bold>{{tenant}}</bold> 的虚拟机监控程序上的 p4proxy（Perforce）边车服务。大约一分钟后生效，此租户上正在运行的 Perforce 会话将失去访问权限。",
+"git.p4proxyConfirmEnable": "即将启用租户 <bold>{{tenant}}</bold> 的虚拟机监控程序上的 p4proxy（Perforce）边车服务。大约一分钟后生效。该企业还须开启 perforce-connections Unleash 开关。",
+"perforceConfirmDisableDedicated_one": "即将为此企业禁用 Perforce。系统会先关闭专用租户上的 p4proxy 边车服务，再将企业从 perforce-connections 开关中移除。正在运行的 Perforce 会话将在约一分钟内失去访问权限。",
+"perforceConfirmDisableDedicated_other": "即将为此企业禁用 Perforce。系统会先关闭其 {{count}} 个专用租户上的 p4proxy 边车服务，再将企业从 perforce-connections 开关中移除。正在运行的 Perforce 会话将在约一分钟内失去访问权限。",
+"perforceConfirmEnableDedicated_one": "即将为此企业启用 Perforce。系统会先开启其 perforce-connections 开关，再启用专用租户上的 p4proxy 边车服务。虚拟机监控程序将在约一分钟内应用变更。",
+"perforceConfirmEnableDedicated_other": "即将为此企业启用 Perforce。系统会先开启其 perforce-connections 开关，再启用其 {{count}} 个专用租户上的 p4proxy 边车服务。虚拟机监控程序将在约一分钟内应用变更。"
 },
 "enterpriseUpsell": {
 "bookDemo": "预约演示",
@@ -10575,7 +10671,8 @@
 "secrets.hideValue": "隐藏值",
 "secrets.showValue": "显示值",
 "standaloneDescription": "独立环境不绑定到某一个组织。凡是能访问环境中全部仓库的人都可以使用它。",
-"title": "环境"
+"title": "环境",
+"repoAccess.github.notFound": "GitHub 在该路径下找不到你的关联账号和 Devin GitHub App 均可读取的仓库。请检查路径。如果仓库存在，请让仓库管理员或组织所有者授予你访问权限，并将仓库加入 Devin GitHub App 的安装范围。"
 },
 "errorPage": {
 "accessDenied": "拒绝访问",
@@ -10688,7 +10785,7 @@
 "removeRepositories": "从 <org>{{org}}</org> 移除仓库",
 "removeRepositoryCount_one": "从 <org>{{org}}</org> 移除 {{count, number}} 个仓库",
 "removeRepositoryCount_other": "从 <org>{{org}}</org> 移除 {{count, number}} 个仓库",
-"removeTarget": "从 <org>{{org}}</org> 移除 <target>{{target}}</target>",
+"removeTarget": "将 <target>{{target}}</target> 从 <org>{{org}}</org> 移除",
 "repository": "仓库",
 "repositoryCount_one": "{{count, number}} 个仓库",
 "repositoryCount_other": "{{count, number}} 个仓库",
@@ -11185,7 +11282,8 @@
 "viewAllRepos.refetch": "重新获取仓库列表",
 "viewAllRepos.updateFailed": "更新仓库列表失败",
 "viewAllRepos.updated": "仓库列表已成功更新",
-"viewAllRepos.updating": "正在更新仓库列表…"
+"viewAllRepos.updating": "正在更新仓库列表…",
+"connectionSyncFailingDescription": "自 {{date}} 起尚未成功同步。此连接的仓库列表可能缺失或过期，会话无法使用 Devin 无权查看的仓库。请在「设置 → 连接」中检查凭据。"
 },
 "githubInstall": {
 "accept": "接受",
@@ -11238,7 +11336,9 @@
 "titleSecret_one": "移除 {{botName}} 对密钥的访问权限？",
 "titleSecret_other": "移除 {{botName}} 对 {{count}} 个密钥的访问权限？",
 "titleSession_one": "移除 {{botName}} 对会话的访问权限？",
-"titleSession_other": "移除 {{botName}} 对 {{count}} 个会话的访问权限？"
+"titleSession_other": "移除 {{botName}} 对 {{count}} 个会话的访问权限？",
+"noteAutomations_one": "批准后，{{botName}} 可以像你一样查看和修改这条个人自动化，包括触发器、提示和运行记录，也可编辑、启用、运行或删除，但无法改为以组织身份运行。你可以在 {{botName}} 的分享对话框中撤销权限。",
+"noteAutomations_other": "批准后，{{botName}} 可以像你一样查看和修改这些个人自动化，包括触发器、提示和运行记录，也可编辑、启用、运行或删除，但无法改为以组织身份运行。你可以在 {{botName}} 的分享对话框中撤销权限。"
 },
 "guardrails": {
 "actions.blockMessage": "屏蔽消息",
@@ -11686,7 +11786,10 @@
 "webhookStep3": "在下方粘贴该端点的签名密钥",
 "webhookSubtitle": "将 incident.io 的事件投递到 Devin",
 "webhookTitle": "Webhook 端点",
-"workspaceFallback": "incident.io 工作区"
+"workspaceFallback": "incident.io 工作区",
+"webhookUrlLabel": "Webhook 地址",
+"mcpSubtitle": "Devin 会话通过 incident.io MCP 服务读取和更新事件。在 MCP 市场以 OAuth 为组织安装后，每位成员在个人「连接」中绑定自己的 incident.io 账号。API 密钥不会共享给此服务。",
+"webhookStep2": "在「订阅事件」中，从 public_incident 下选中四个 v2 事件：incident_created_v2、incident_status_updated_v2、incident_updated_v2 和 follow_up_created_v2。若要接收私有事件，请也选中 private_incident 下的对应项。也可留空筛选条件以发送全部事件，Devin 会忽略不使用的事件类型。"
 },
 "infoTip": {
 "docs": "文档",
@@ -12068,12 +12171,16 @@
 "slack.support.getInvite": "获取邀请",
 "slack.support.gettingInvite": "正在获取邀请……",
 "slack.support.inviteFailed": "获取 Slack Connect 邀请失败。",
-"slack.support.menuItem": "Slack 支持频道"
+"slack.support.menuItem": "Slack 支持频道",
+"azureDevops.webhook.buildCompleted": "若要让 Devin 响应其拉取请求中失败的流水线，并使用构建自动化，请再创建一条 <strong>构建完成</strong> 订阅，资源版本选择默认的 <strong>2.0</strong>。",
+"github.ghesApps.descriptionInstallAndRemove": "在 GitHub Enterprise 实例上安装已注册的 GitHub App。若要在同一主机重新注册，请先移除现有应用。此操作只清除 Devin 保存的配置，应用本身须在 GitHub Enterprise 实例中另行删除。",
+"gitlab.connect.serviceAccountDescription": "在 GitLab 群组中创建服务账号，免费版可使用专用用户。为其配置具有 api 范围的个人访问令牌，再将它加入 Devin 应访问的群组。Developer 可连接和读取，Maintainer 可让 Devin 设置 Webhook，Owner（Premium 或 Ultimate）还支持群组级 Webhook。"
 },
 "internalBots": {
 "automation": "自动化",
 "codeScan": "代码扫描",
-"pylonBot": "Pylon 机器人"
+"pylonBot": "Pylon 机器人",
+"devinBot": "Devin 机器人"
 },
 "introducingBotsCallout": {
 "cta": "查看它们",
@@ -12426,7 +12533,13 @@
 "siteSelection.loadFailed": "无法加载你的 Jira 站点。请重新尝试连接。",
 "siteSelection.required": "必须填写 Jira 站点",
 "siteSelection.success": "已连接到 {{site}}",
-"siteSelection.title": "选择 Jira 站点"
+"siteSelection.title": "选择 Jira 站点",
+"agentLink.oauthConflictDescription": "{{site}} 已通过 Jira OAuth 连接到另一个 Devin 账号。在此绑定会使工作分散到两个账号，因此暂时无法进行。请先在原账号断开 OAuth 连接，或联系支持。",
+"agentLink.oauthConstraintMultiple": "此 Jira 站点通过 OAuth 连接到 <account>{{accountName}}</account>，应用只能绑定到该账号。绑定不会更改 OAuth 连接。若要使用其他账号，请先断开 Jira OAuth。",
+"agentLink.settings.permissionsGrantHint": "Jira 项目管理员可在项目设置中，将服务账号加入拥有这些权限的项目角色。Jira 管理员也可以在项目的<permissionsLink>权限方案</permissionsLink>中授权。Devin 会在一分钟内识别变更。",
+"mapping.rulesInfo": "问题会转到项目或标签映射到的组织。通过 Devin 的 Jira 应用发起时，请求者必须属于该组织，否则问题将转到请求者的默认工作组织。",
+"orgAccess.enforceToolScopeInfo": "路由依据项目、标签和组织锁定规则。启用 !org 时，未锁定的组织也会看到其他未锁定组织的问题。用于发起会话的问题始终可访问。",
+"projectsError.saSiteAccessRevoked": "Jira 拒绝了整个服务账号。该账号访问 Jira 站点的权限似乎已被撤销，常见原因是访问过期或身份治理策略。请让 Jira 管理员重新授予此站点的产品访问权限，并将账号加入自动撤销访问权限策略的例外。"
 },
 "jiraAssignee": {
 "loadingUsers": "正在加载用户…",
@@ -12447,7 +12560,8 @@
 "sourceAdminGrant": "使用管理员账号",
 "sourceForgeApp": "使用 Devin 应用",
 "sourceServiceAccount": "使用服务账号",
-"webhookDescription": "在 Jira 中，前往 Jira 管理 → 系统 → WebHooks，使用此 URL 和密钥创建一个 Webhook。选择下方的事件，并将 JQL 过滤器留空。"
+"webhookDescription": "在 Jira 中，前往 Jira 管理 → 系统 → WebHooks，使用此 URL 和密钥创建一个 Webhook。选择下方的事件，并将 JQL 过滤器留空。",
+"enableDescription": "允许 Devin 将会话关联到此 Jira Cloud 站点的问题、按项目为问题打标签，并读取问题层级。优先使用已安装的 Devin 应用，其次使用已配置的 Jira 服务账号，否则使用已连接的管理员账号。查询问题时使用会话所有者的 Jira 账号读取。"
 },
 "jiraDataCenter": {
 "back": "返回",
@@ -12703,7 +12817,10 @@
 "title": "知识库",
 "usage.retrieved": "已检索",
 "usage.used": "已使用",
-"viewSkills": "查看技能"
+"viewSkills": "查看技能",
+"manager.macroName": "宏名称",
+"cleanup.confirmDescription": "此操作会启动实际的 Devin 会话，和其他会话一样消耗组织的 ACU 余额。Devin 会检查迁移后的技能，并在删除、合并或重命名前暂停以征求你的批准。",
+"deprecationDescription": "知识功能将迁移到技能。你的笔记会自动转换为知识插件中的技能，内容保持原样。会话将像现在使用笔记一样使用这些技能。数据仍保存在 Devin 中，无需操作。"
 },
 "knowledgeSuggestions": {
 "accept": "接受",
@@ -12954,7 +13071,8 @@
 "trigger.allNewIssues": "所有新议题",
 "trigger.directMentions": "仅限直接提及",
 "trigger.onStatus": "状态为“{{state}}”时",
-"trigger.selectAria": "选择触发器选项"
+"trigger.selectAria": "选择触发器选项",
+"environmentMappings.description": "「我的工作区」成员在 Linear 团队中提及 Devin 时，新会话会使用该团队配置的环境。如果团队未配置环境，或该成员无权使用，会话会回退到其默认环境。"
 },
 "linearTicket": {
 "addTicketUrl": "添加工单 URL",
@@ -13361,7 +13479,9 @@
 "skipRemainingStepsTitle": "跳过剩余步骤？",
 "skipTheRestAndSave": "跳过其余并保存",
 "stepsComplete": "{{total}} 个步骤中已完成 {{completed}} 个",
-"tooLateTitle": "太迟了 :("
+"tooLateTitle": "太迟了 :(",
+"baseSnapshotMismatchWarning": "当前 Devin 会话的基础机器快照与默认工作区不同，无法将会话中的工作保存到默认工作区。若要更新默认工作区，请使用它启动新的 Devin 会话。",
+"tooLateDescription": "自此设置会话启动以来，默认工作区已更改，无法安全地将会话工作写回默认工作区。如需将会话内的改动应用到默认工作区，请用默认工作区启动新的设置会话，并请 Devin 执行所需修改。"
 },
 "manageAccess": {
 "accessLevel": "访问级别",
@@ -13724,7 +13844,12 @@
 "outpostWaiting.queuedTitle": "正在等待你的前哨上线",
 "outpostWaiting.stalledBody": "你前哨中的工作进程已接受此会话，但未能及时连接。请检查前哨工作进程是否在运行且状态正常 — Devin 会持续等待，直到有机器连接。",
 "outpostWaiting.stalledTitle": "你的前哨机器尚未连接",
-"outpostWaiting.viewOutposts": "查看前哨"
+"outpostWaiting.viewOutposts": "查看前哨",
+"outpostWaiting.failedBody": "Outpost 中的一台工作节点领取了此会话，但无法启动机器，已释放会话。请处理原因，例如确认镜像可拉取或重建环境镜像，然后重新启动会话。",
+"outpostWaiting.failedBody_named": "Outpost「{{outpostName}}」中的一台工作节点领取了此会话，但无法启动机器，已释放会话。请处理原因，例如确认镜像可拉取或重建环境镜像，然后重新启动会话。",
+"outpostWaiting.queuedBody": "会话正在你的 Outpost 排队，暂时没有机器接手。这是组织自己的 Outpost，Devin 服务仍在运行。Devin 会继续等待，机器一旦连上便会启动会话。",
+"outpostWaiting.queuedBody_named": "会话正在你的 Outpost「{{outpostName}}」排队，暂时没有机器接手。这是组织自己的 Outpost，Devin 服务仍在运行。Devin 会继续等待，机器一旦连上便会启动会话。",
+"outpostWaiting.stalledBody_named": "Outpost「{{outpostName}}」中的一台工作节点领取了此会话，但未及时连上。请检查 Outpost 工作节点是否在正常运行。Devin 会继续等待，机器一旦连上便会启动会话。"
 },
 "messageRewriter": {
 "addStage": "添加阶段",
@@ -14391,7 +14516,8 @@
 "unpinSidebar": "取消置顶",
 "unread": "未读",
 "unreadEmpty.description": "你已全部处理完毕。",
-"unreadEmpty.title": "无未读通知"
+"unreadEmpty.title": "无未读通知",
+"server.teamsConnectionNeedsAttention.body.automation_channel_lost": "一条 Microsoft Teams 自动化已停止接收其频道的消息。可能是 Devin AI 已被移出团队、频道已删除，或 Teams 管理员撤销了 Devin 对频道的权限。请重新将 Devin AI 添加到团队，或更新自动化。"
 },
 "notificationPreferences": {
 "description": "选择哪些通知会进入你的收件箱，以及其中哪些还会推送到你的设备。",
@@ -14771,7 +14897,10 @@
 "workflowIssueTrackerTitle": "议题跟踪器",
 "workflowMcpDescription": "连接 Notion、Sentry 或 Datadog 等工具",
 "workflowMcpTitle": "MCP 服务器",
-"workflowReviewDescription": "审查 PR 并标记缺陷"
+"workflowReviewDescription": "审查 PR 并标记缺陷",
+"startWebTitle": "Devin 网页应用",
+"unifiedAddReposBody": "需要先添加这些仓库，Devin 才能使用它们。要添加列表以外的仓库，请在下方搜索。以后也可添加更多仓库，并在<repositoriesLink>设置 → 仓库</repositoriesLink>中查看访问权限。",
+"unifiedReposGithubNotConnected": "你的 GitHub 账号已绑定，但此 Devin 账号尚未连接 GitHub App，无法列出 GitHub 仓库。请让 Devin 管理员<integrationLink>设置 GitHub 集成</integrationLink>。"
 },
 "onboardingGit": {
 "areYouSure": "确定吗？",
@@ -15283,7 +15412,15 @@
 "triggerDuplicate": "此触发器与之前的某个触发器完全相同",
 "triggerLabel": "触发器",
 "triggerMessageLabel": "消息",
-"triggerWebhookLabel": "Webhook 投递"
+"triggerWebhookLabel": "Webhook 投递",
+"contextSetupTitle": "入门配置",
+"emptyDescription": "让 Devin 使用遥测、代码、部署记录、相关运行手册和历史事件，自动调查告警和缺陷，给出可能的根因及后续行动建议。",
+"enterpriseTurnOffDescription": "所有组织的事件功能将关闭，企业事件来源、路由规则和默认回退规则将重置。若要在某个组织继续使用，请重新开启该组织的事件功能。",
+"setup.initializingBannerDescription": "Devin 正在了解你的系统，通常需要约 1 至 2 小时。你可以先配置响应器、事件监控和报告。设置完成前，响应器不会处理告警，新事件频道不会被监控，报告摘要也不会发送。",
+"setup.previewBugFix": "已定位到今天上午上线的 <commitLink>c48b1f3</commitLink>。新版游标分页在结果跨多个分片时遗漏了第一页。正在升级给代码负责人 <mention>@Jake</mention>。",
+"setup.previewDiskPressureFix": "已找到原因。<code>log-shipper</code> DaemonSet 丢失了卷挂载，日志轮转停止，容器日志正在占满 <code>/var/log/pods</code>。需要我将这三个节点设为不可调度，并清理积压日志吗？",
+"setup.previewSlowQueryFix": "已找到原因。<code>list_customers</code> 数据加载器中的 <code>IN (...)</code> 子句没有上限，一批合并了 1,500 多个会话 ID，导致查询耗时数秒。需要我为数据加载器增加批次上限或分页吗？",
+"webhookTriggerDescription": "外部系统通过 POST 向此收件箱投递，并在 X-Webhook-Secret 请求头中提供密钥。投递不会直接收到回复。发现项会写入问题和会话，并通过运行手册指定的工具报告。"
 },
 "orgSwitcher": {
 "allOrganizations": "所有组织",
@@ -15773,7 +15910,12 @@
 "mcp.installAndEnable": "安装并启用",
 "mcp.title": "启用 MCP 集成",
 "securityNotice": "安全提示",
-"title": "安装 {{name}}"
+"title": "安装 {{name}}",
+"mcp.sharedOAuth": "启用后，组织所有成员将使用<strong>同一 MCP 服务连接，所有操作共享同一认证状态。</strong> Devin 提示访问网址以连接 {{name}} 账号时，<u>强烈建议使用服务账号</u>。",
+"mcp.sharedOAuthAccount": "在统一模式下，有权访问此 MCP 的人员将使用<strong>同一服务连接，所有操作共享同一认证状态。</strong> Devin 提示访问网址以连接 {{name}} 账号时，<u>强烈建议使用服务账号</u>。",
+"mcp.sharedOAuthCount": "启用后，组织中的 {{count}} 位成员将使用<strong>同一 MCP 服务连接，所有操作共享同一认证状态。</strong> Devin 提示访问网址以连接 {{name}} 账号时，<u>强烈建议使用服务账号</u>。",
+"mcp.userOAuth": "组织中的每位成员都会使用自己的 {{name}} 个人访问令牌完成验证。其他用户仍可与你的会话互动，因此不能将这种设置视为安全边界。",
+"mcp.userOAuthAccount": "每位可访问此 MCP 的人员将使用自己的 {{name}} 个人访问令牌完成验证。其他用户仍可与你的会话互动，因此不能将这种设置视为安全边界。"
 },
 "pluginManifestEditor": {
 "discard": "丢弃",
@@ -15968,7 +16110,10 @@
 "suggested": "建议的",
 "unavailableInCustomize": "此插件在“自定义”中不可用。",
 "viewDetails": "查看 {{name}} 详细信息",
-"viewOnGithub": "在 GitHub 上查看"
+"viewOnGithub": "在 GitHub 上查看",
+"sheet.marketplacePlugin": "市场插件",
+"manifestDialog.description": "三份列表决定 {{who}} 可使用哪些插件。<chip>requiredPlugins</chip> 会安装插件，<chip>optionalPlugins</chip> 会提供插件供选择，<chip>forbiddenPlugins</chip> 会禁止插件，最后一项还能使用 <chip>acme/*</chip> 这样的通配模式。<docsLink>查看清单格式</docsLink>",
+"mcpSheetDescription": "按名称列出 Devin 可调用的 MCP 服务。配置保存在当前范围插件的 {{filePath}}。用 <code>${NAME}</code> 引用密钥，成员在服务详情中提供值。直接写在这里的密钥值会被移除。"
 },
 "pluginMcp": {
 "connect": "连接",
@@ -16114,7 +16259,8 @@
 "teamsPriceReduced": "Teams 套餐已从每月 <emphasis>$500</emphasis> 降至 <emphasis>$80</emphasis>",
 "title": "套餐变更",
 "upgradeDialogLabel": "升级定价",
-"viewPlans": "查看计划"
+"viewPlans": "查看计划",
+"coreUpgradePlans": "已购买的用量仍可使用。若要额外购买 Devin 用量，请升级到新的付费方案 <emphasis>Pro</emphasis>、<emphasis>Max</emphasis> 或 <emphasis>Teams</emphasis>。"
 },
 "privacyChoices": {
 "activeCookies": "身份验证与会话 Cookie",
@@ -16144,7 +16290,8 @@
 "optedOut": "已退出",
 "optedOutBody": "你目前已选择退出。我们尊重你的偏好，不会为定向广告目的出售或共享你的个人信息。",
 "privacyPolicy": "隐私政策",
-"title": "你的隐私选择"
+"title": "你的隐私选择",
+"rights": "根据居住地和适用的隐私法律，包括 CCPA/CPRA 及美国其他州的类似法律，你可能有权拒绝为定向广告出售或共享你的个人信息。"
 },
 "progress": {
 "aBit": "一点",
@@ -16513,7 +16660,8 @@
 "webhookSecret": "Webhook 密钥",
 "webhookSecretFailed": "无法创建 webhook 密钥",
 "webhookSecretOnce": "密钥只显示一次。请立即复制。",
-"webhookServiceUser": "已以 {{user}} 身份连接。"
+"webhookServiceUser": "已以 {{user}} 身份连接。",
+"webhookUrl": "Webhook 地址"
 },
 "projects": {
 "acusBy": "ACU 统计维度",
@@ -16926,7 +17074,7 @@
 "triggerDisabledStatus": "不会运行 — Pylon 触发器已关闭",
 "triggerDisabledTitle": "此自动化不会运行",
 "triggerLockedTooltip": "此触发器不可用。\n请在 Pylon 连接设置中将其打开。",
-"triggerOrgListLockedTooltip": "此触发器不可用。要开启它，请在 Pylon 连接设置中允许 My Workspace。",
+"triggerOrgListLockedTooltip": "此触发器当前不可用。\n请在 Pylon 连接设置中允许「我的工作区」以启用。",
 "triggerPartiallyDisabledDescription": "Pylon 设置中已关闭 {{triggers}}，因此该自动化不会为它运行。其他触发器仍然有效。",
 "triggerPartiallyDisabledTitle": "部分触发器不会触发",
 "triggers.issueCreated": "议题已创建",
@@ -16941,7 +17089,8 @@
 "userMatchingConnectedOnly": "仅限已连接 Pylon 的用户",
 "userMatchingDescription": "Pylon 发送者如何被识别为 Devin 用户",
 "userMatchingEmail": "电子邮件或已连接 Pylon 的用户",
-"userMatchingLabel": "用户匹配"
+"userMatchingLabel": "用户匹配",
+"securityWarningDescription": "由 Pylon 创建的会话会处理客服工单等不可信内容，其中可能含有提示注入。请应用限制较严的安全配置，约束会话的网络和工具访问。"
 },
 "quickReview": {
 "agentRunning": "请等智能体完成工作后再请求评审。",
@@ -16978,7 +17127,8 @@
 "preview": "预览",
 "previewElement": "预览元素",
 "screenshotAlt": "所选元素的截图，随引用一同发送",
-"source": "来源"
+"source": "来源",
+"accessibility.stateValue": "已启用={{enabled}} · 已聚焦={{focused}}"
 },
 "quotePill": {
 "designEdit.alignItems": "对齐项目",
@@ -17422,7 +17572,9 @@
 "viewSession": "查看会话",
 "whyThisMatters": "为什么重要",
 "yourCheck": "你的检查",
-"yourChecks": "你的检查"
+"yourChecks": "你的检查",
+"customChecksEmptyDescription": "自定义检查用于描述仓库必须满足的内部工具要求。Devin 会在就绪评估中逐项验证。它们与 Cognition 的检查一起展示，不影响就绪等级。",
+"customConnectionsEmptyDescription": "说明 Devin 应访问的系统及判断访问是否正常的方法，例如你的 SonarQube 或 Artifactory。Devin 使用组织的密钥、MCP 服务和集成进行只读验证。"
 },
 "releaseManager": {
 "activeReleases": "活跃版本",
@@ -18221,7 +18373,8 @@
 "wizClientSecret": "客户端密钥",
 "wizClientSecretInfo": "服务账号需要的范围",
 "wizDescription": "云端问题与漏洞",
-"zafranDescription": "带运行时上下文的暴露发现"
+"zafranDescription": "带运行时上下文的暴露发现",
+"githubApiUrl": "GitHub API 地址"
 },
 "scanRuns": {
 "cancelScan": "取消扫描",
@@ -19008,7 +19161,8 @@
 "statusCount_one": "{{count}} 个状态",
 "statusCount_other": "{{count}} 个状态",
 "tagsLoadError": "无法加载标签和属性。",
-"threatValue": "威胁：{{label}}"
+"threatValue": "威胁：{{label}}",
+"chatWindow.windowTitle": "Devin 聊天"
 },
 "securityOverview": {
 "dismissedFindings": "已忽略的发现",
@@ -19536,7 +19690,15 @@
 "verifyFailed": "无法更新目标。",
 "verifyTitle": "验证授权",
 "viewFindings": "查看发现",
-"viewScan": "查看扫描"
+"viewScan": "查看扫描",
+"depthFootholdDescription": "从内网执行深度评估。会话在所选 Outpost 的一台机器上依次运行，检查下方选定范围内的目标，直到没有待处理项。扫描不会修改或关闭任何服务。若无法确定目标是否归你所有，会先征求确认。",
+"footholdScopeReachableDescription": "测试该机器可访问且明确属于组织的全部系统，范围可跨网络、VPN 或内部域。遇到归属不明的目标或由其他公司运营的服务，扫描会暂停并询问你。",
+"report.executiveSummaryBody_one": "Devin 对 {{domain}} 执行了经授权的渗透测试，在范围内发现 {{count}} 项问题（严重 {{critical}}、高危 {{high}}、中危 {{medium}}、低危 {{low}}）。下方附有收集的证据和补救建议。",
+"report.executiveSummaryBody_other": "Devin 对 {{domain}} 执行了经授权的渗透测试，在范围内发现 {{count}} 项问题（严重 {{critical}}、高危 {{high}}、中危 {{medium}}、低危 {{low}}）。下方每项均附有收集的证据和补救建议。",
+"report.limitationsBody": "报告仅反映测试期间、测试范围内的系统。渗透测试只评估当时的状态，无法保证不存在其他漏洞。验证时排除的问题不列入报告。",
+"report.methodologyBody": "测试：Devin 以外部攻击者及提供的各用户角色测试应用。参照 OWASP Web 安全测试指南，覆盖认证和会话处理、访问控制、注入、服务端请求伪造、业务逻辑和敏感数据暴露。\n验证：报告前对每个候选问题均在实际目标上复现，未确认的问题已排除。\n报告：按影响与可利用性评级，测试期间看到的密钥已脱敏。",
+"scopeInvalid_one": "{{entries, list}} 不是公共主机名、IP 地址或 CIDR 范围。请输入 app.example.com 或 *.example.com 等不含端口和凭据的主机名，或公共 IP 地址。范围不得大于 /16（IPv6 为 /48）。",
+"scopeInvalid_other": "{{entries, list}} 中的条目不是公共主机名、IP 地址或 CIDR 范围。请输入 app.example.com 或 *.example.com 等不含端口和凭据的主机名，或公共 IP 地址。范围不得大于 /16（IPv6 为 /48）。"
 },
 "securityRepositories": {
 "emptyDescription": "你的组织连接的仓库会显示在这里。启动扫描以检查你的代码库。",
@@ -19668,7 +19830,8 @@
 },
 "securityWelcome": {
 "dismiss": "关闭",
-"title": "隆重推出 Devin Security"
+"title": "隆重推出 Devin Security",
+"description": "查找代码库中的漏洞并了解影响。Devin Security 可帮你确定优先处理的发现项、调查风险，并将修复整理成可审阅的拉取请求。"
 },
 "selectionBar": {
 "analyse": "分析",
@@ -19969,7 +20132,8 @@
 "viewersTyping_one": "{{count}} 人正在输入",
 "viewersTyping_other": "{{count}} 人正在输入",
 "waitingForWakeUp": "正在等待 {{name}} 唤醒……",
-"you": "你"
+"you": "你",
+"acusValue": "{{value}} ACU"
 },
 "sessionAnalysis": {
 "detectedIssues": "检测到的问题",
@@ -21700,7 +21864,7 @@
 "collaborationPages.linear.view": "视图",
 "collaborationPages.linear.waitsApprovalBeforeProceeding": "继续前会等待你的批准",
 "collaborationPages.linear.workspaceAdminAdjustPermissions": "工作区管理员可能需要在 <lnk>Linear 安全设置</lnk>中调整权限。",
-"collaborationPages.linear.workspaceAdminSetManageLabels": "工作区管理员需要在 <lnk>Linear 安全设置</lnk>中将 <bold>管理工作区标签</bold>设为“All members”。",
+"collaborationPages.linear.workspaceAdminSetManageLabels": "工作区管理员需要将<bold>管理工作区标签</bold>设为所有成员均可使用。请前往 <lnk>Linear 安全设置</lnk>。",
 "collaborationPages.microsoftTeams.areYouSureYouWantDisconnect": "确定要断开 Microsoft Teams 集成吗？这会移除 Devin 中所有 Microsoft Teams 功能。",
 "collaborationPages.microsoftTeams.channelMapping": "频道映射",
 "collaborationPages.microsoftTeams.connectedFormat": "已连接 {{format}}",
@@ -26412,7 +26576,7 @@
 "teamsAttachmentClassificationGuide.picker.label": "分类",
 "teamsAttachmentClassificationGuide.picker.placeholder": "选择分类",
 "teamsAttachmentClassificationGuide.picker.share": "分享给 Devin",
-"teamsAttachmentClassificationGuide.picker.shared": "✅ <file>customer-notes.pdf</file> 已由 <mention>@{{name}}</mention> 归类为 <b>{{level}}</b>，并与 Devin 共享。",
+"teamsAttachmentClassificationGuide.picker.shared": "✅ <file>customer-notes.pdf</file> 已归类为 <b>{{level}}</b>，操作人为 <mention>@{{name}}</mention>。文件已共享给 Devin。",
 "teamsAttachmentClassificationGuide.picker.tab": "无已知标签",
 "teamsAttachmentClassificationGuide.request": "<mention>@Devin</mention> 你能总结一下这个文件吗？",
 "teamsAttachmentClassificationGuide.title": "成员在 Teams 中看到的内容",
@@ -26862,7 +27026,80 @@
 "windsurfDescription": "关联你的 Windsurf 账号",
 "workspaceRestriction": "将 Cascade 限制在工作区",
 "workspaceRestrictionDescription": "仅在工作区内读写文件",
-"yourPrivacyChoices": "你的隐私选择"
+"yourPrivacyChoices": "你的隐私选择",
+"devinModeSwe2Flash": "SWE-2 Flash（预览）",
+"devinModeSwe2FlashHigh": "SWE-2 Flash High（预览）",
+"devinModeSwe2FlashMax": "SWE-2 Flash Max（预览）",
+"devinModeSwe2FlashMedium": "SWE-2 Flash Medium（预览）",
+"devinModeSwe2Lightning": "SWE-2 Lightning（预览）",
+"devinModeSwe2LightningHigh": "SWE-2 Lightning High（预览）",
+"devinModeSwe2LightningMax": "SWE-2 Lightning Max（预览）",
+"devinModeSwe2LightningMedium": "SWE-2 Lightning Medium（预览）",
+"gerritUrl": "Gerrit 地址",
+"keyboardShortcuts.commands.sessionRename": "重命名会话",
+"machineCatalogPage.memorySize": "{{size}} GB 内存",
+"onboarding": "入门配置",
+"accessEnabledForAnthropicModelsWithZeroDataRetentionDescription": "在 Anthropic 推出企业前沿模型防护期间，你的组织可以在数据保留要求的限时豁免下使用 Claude Fable 5 和 Claude Fable 5.1。所有模型均适用你组织的标准数据保留政策。",
+"accessPages.scimProvisioning.pasteTokenJitDisabled": "将令牌和预配设置中的 SCIM 基础 URL 粘贴到身份提供方的 SCIM 配置中。SSO 即时（JIT）预配已关闭，身份提供方群组成员关系仅通过 SCIM 管理。",
+"acpRegistryConfigHelp": "JSON 须符合 ACP 注册表架构，包含 <code>version</code> 字段及 <code>agents</code> 数组。每个智能体须有 <code>id</code>、<code>name</code>、<code>version</code>、<code>description</code> 和 <code>distribution</code>，其中分发至少指定 npx、uvx、binary 或 websocket 中的一种方式。",
+"aiGatewayStepCreateKeyDescription": "在企业中创建拥有 Use AI Gateway 权限的角色下的服务用户，并使用其令牌。个人使用时，若你的角色也具备该权限，可使用个人访问令牌。不支持组织级 API 密钥。",
+"allowDevinAppsDescription": "应用是 Devin 在自己的机器上构建并托管的内部网页应用。仅已登录的组织或企业成员可以打开，应用不会公开。应用使用构建它的 Devin 会话的仓库和密钥，会话在无人访问时休眠。",
+"anthropicCyberRetentionDescription": "解锁需要保留数据以进行信任与安全验证的额外 Anthropic 模型，例如 Claude Fable 5。<br /><br />Anthropic 最多保留数据 30 天，且不会将其用于模型训练或改进。该设置只适用于 Anthropic 模型。<learnMoreLink>了解详情</learnMoreLink>",
+"approvalPolicyUnconditionalRequestsDisabledWarning": "企业的<settingsLink>限额告警操作</settingsLink>已设置为 <actionName>{{action}}</actionName>，因此新的原生用量申请已禁用。此策略仅适用于已经待处理的申请。",
+"autoapproveManageToolsDescription": "你拥有的会话可以创建、编辑或删除你有权管理的资源，包括自动化、知识、操作手册、计划任务、MCP 服务、个人插件和技能。如果你已提出请求、事先批准，或操作十分简单，则无需再次确认。其他情况 Devin 仍会请求批准。",
+"bitbucketCloudTokenDialogDescription": "Devin 使用此令牌访问工作区，并以令牌身份发布审查结果。工作区访问令牌需要 Bitbucket Cloud Premium。其他套餐可通过 OAuth 连接。",
+"bitbucketWebhookAutoInstallNote": "Devin 会自行将此 Webhook 添加到其 Bitbucket 令牌有管理权限的所有项目。仅对它无法管理的项目使用下方步骤。如果仓库或项目已有手动添加的 Devin Webhook，Devin 添加自己的 Webhook 后，每个事件会投递两次，请移除手动添加的一条。",
+"cliPermissionsHelp": "JSON 可包含三个可选字段 <code>allow</code>、<code>deny</code> 和 <code>ask</code>。每个字段为权限字符串数组。权限可按范围设置（如 <code>Read(/path)</code>、<code>Write(/path)</code>、<code>Exec(cmd)</code>、<code>Fetch(url)</code>），也可按工具设置（如 <code>read</code>、<code>edit</code>、<code>exec</code>）。详细选项见<docsLink>权限文档</docsLink>。",
+"cyberVerificationDescription": "申请 Anthropic 的 Cyber Verification Program，为安全工作放宽部分内容限制。企业获批后路由会自动开启。即使企业禁止模型提供商保留数据，下列成员的 Anthropic 请求仍将发送到支持非零数据保留的组织，且不享受零数据保留。获批后可关闭此路由。若组织已获批，请打开注册链接，选择「关联资料」，再为此资料启用已获批的访问权限。",
+"cyberVerificationStatusActive": "已获批，路由在批准时已自动开启。开启期间，下列成员的 Anthropic 请求会发送到支持非零数据保留的组织，且不享受零数据保留，即使企业禁止模型提供商保留数据。",
+"cyberVerificationStatusPending": "等待审核。Anthropic 预计在七个工作日内答复。获批后会自动开启路由，下列成员的 Anthropic 请求会发送到支持非零数据保留的组织，且不享受零数据保留。若组织已获批，请打开注册链接，选择「关联资料」，再为此资料启用已获批的访问权限。",
+"extensionPolicyHelp": "此 JSON 对象控制团队允许或禁止使用的 VS Code 扩展。键可为扩展 ID（如 <code>ms-python.python</code>）、发布者名称，或表示默认规则的 <code>*</code>。值可为 <code>true</code>（允许）、<code>false</code>（禁止）或 <code>\"stable\"</code>（仅允许稳定版）。格式详见 <docsLink>VS Code 企业扩展文档</docsLink>。",
+"federatedAuth.disableStaticKeysDescription": "从现在起，使用静态服务用户密钥认证的请求都会被拒绝。{{activeKeys}} 个有效静态密钥将停止工作。密钥仅被阻止，重新启用静态密钥后，未过期的密钥会恢复可用。请撤销不再需要的密钥。个人访问令牌由 PAT 策略单独管理。SCIM 预配和 Outpost 工作节点不受影响。",
+"federatedAuth.removeProviderDescription": "工作负载将无法用 {{name}} 交换令牌，已经通过它交换的令牌会在下次请求时失效。经此提供方绑定的联合凭据也都会被撤销。",
+"federatedAuth.staticKeysRowDescriptionDisabled": "已禁用。整个账号范围内的静态服务用户密钥均会被拒绝，服务用户必须交换身份提供方令牌。现有密钥仅被阻止，重新启用后仍可使用。SCIM 预配密钥和 Outpost 工作节点密钥不受影响。",
+"gatewayPrivateLinkSetupConnectHelp": "Cognition 会为你的服务创建接口端点，并发送其 DNS 名称。在下方填写该名称。如果端点服务有已验证的私有 DNS 名称，且 Cognition 已在端点上启用该名称，也可填写它。",
+"gatewayPrivateLinkSetupService1": "创建内部网络负载均衡器，配置将流量转发到端口 {{port}} 的 Devin Connect 的 TCP 侦听器，再基于它创建 VPC 端点服务。侦听器可使用任意端口，并在最后一步填写。",
+"gerritHttpTokenDescription": "服务账号的长期 HTTP 密码，可在 Gerrit 的「设置 → HTTP 凭据」中获得。如果该账号无法登录网页，可通过 REST 生成：PUT /a/accounts/<username>/password.http，请求体为 {\"generate\": true}。需要 Gerrit 3.13 或更新版本。Devin 用它签发和续期有效期为 180 天的认证令牌。",
+"gitlabAppsDescription": "查看在 Devin 中注册的应用，或移除应用以在同一主机重新注册。移除后会解除用户绑定，并清除 Devin 保存的配置。还需在 GitLab 中单独删除应用。",
+"googleWorkspaceMcpNoticePreview": "Google 仅向加入 <previewLink>Google Workspace 开发者预览计划</previewLink>的 Google Cloud 项目提供 {{name}} MCP 请求。未加入时仍可登录，但 Google 会因权限不足拒绝所有工具调用。",
+"groupMappingsDescription": "将身份提供方群组映射到用量档位。未直接分配档位的成员使用所属群组的档位。若所属群组映射到了多个档位，以档位列表中最靠前的一项为准。",
+"jiraOauthNoSites": "找不到当前登录的 Atlassian 账号可访问的 Jira 站点，因此未建立连接。如果账号确实有访问权限，请一分钟后重试，否则请用目标站点的 Jira 管理员账号登录。",
+"jiraPlaybooksDescription": "为 Jira 问题分配对应标签即可使用操作手册启动 Devin 会话。请复制标签名称并在 Jira 项目中创建。触发 Devin 时若未指定操作手册标签（例如使用「devin」标签），将使用默认操作手册。",
+"localMachineToolsDescription": "允许 Devin 通过 `devin connect` 请求在用户自己的机器上运行工具。每次连接均需要用户批准。关闭原生部署或会话使用安全配置时，此功能不可用。",
+"logOutAllDevicesDescription": "结束所有设备上的网页端、Devin Desktop、CLI 和移动应用会话，包括当前设备。你通过 OAuth 授权的应用也会失去访问权限。API 密钥和个人访问令牌仍可使用。",
+"mcpAttachOidcTokenDescription": "Devin 服务器会在每次调用时向此服务发送短期 OIDC 令牌作为 Bearer 凭据，以便服务验证请求来自 Devin。令牌的受众为服务 URL 的源，该 URL 必须使用 HTTPS。对该服务的调用将不在会话机器上运行。",
+"mcpMp.scopeChange.descEnterprise": "切换到企业访问权限将重置此 MCP 的所有现有连接，包括成员的个人登录。之后由管理员连接一次，目标组织中的所有人员共享该连接。",
+"mcpMp.scopeChange.descEnterpriseAppRegistration": "此 MCP 服务目前通过「连接」中的 PagerDuty 应用注册为每位成员建立连接。企业访问权限会断开与该应用注册的连接，改用在此服务中填写的 OAuth 客户端进行认证。",
+"mcpMp.scopeChange.descOrgAppRegistration": "此 MCP 服务目前通过「连接」中的 PagerDuty 应用注册为每位成员建立连接。组织访问权限会断开与该应用注册的连接，改用在此服务中填写的 OAuth 客户端进行认证。",
+"mcpMp.scopeChange.descPersonal": "切换到个人访问权限后，每位成员需要用自己的账号单独完成身份验证，然后 Devin 才能代表该成员使用此 MCP。其他用户仍可与会话互动，因此不能将此设置视为安全边界。",
+"mcpMp.scopeChange.descShared": "切换到共享访问权限后，所有可访问此 MCP 的人员将使用同一连接。可保留已有个人令牌，以便以后切回个人访问权限时无需重新连接。",
+"mcpMp.scopeChange.descSharedAppRegistration": "此 MCP 服务目前通过「连接」中的 PagerDuty 应用注册为每位成员建立连接。共享访问权限会断开与该应用注册的连接，改用在此服务中填写的 OAuth 客户端进行认证。",
+"mcpMp.scopeChange.sharedConnectionBodyEnterprise": "启用企业访问权限时，目标组织中的所有人员共享此集成的同一连接。强烈建议绑定专用服务账号。",
+"mergeManagerIntro": "自动批准适用于合并前必须获得审查批准的仓库。它会对已纳入范围且可安全合并的拉取请求给出批准，其余请求交由人工审查。它的批准计为 Devin 的一次普通批准，无法替代代码所有者审查，也不会自行合并。",
+"msTeamsTeamMissingPermissions": "Devin 对此团队的权限不完整，由 Teams 消息触发的自动化及其他功能可能无法使用。请让 Microsoft Teams 管理员检查 Devin 应用对该团队的权限。",
+"oauthClientSetupGuide.microsoft365.step1": "在 Microsoft Entra 管理中心的「应用注册」中创建应用注册，也可从 Azure 门户中的 Microsoft Entra ID 进入。将「支持的账号类型」设为「任何组织目录中的账号（多租户）」。Devin 通过 Microsoft 通用端点登录，该端点拒绝单租户应用。",
+"openaiCyberRetentionDescription": "解锁需要保留数据以进行信任与安全验证的额外 OpenAI 模型。<br /><br />OpenAI 最多保留数据 30 天，且不会将其用于模型训练或改进。该设置只适用于 OpenAI 模型。",
+"prcOriginModelsDisabledDescription": "你的组织已配置为阻止使用总部位于中华人民共和国的实验室所开发权重的模型，包括基于这些模型微调的 Cognition 模型。Devin 在任何模式下都不会使用这些模型。",
+"removeGitProviderConnectionEnterpriseWarning": "你在「设置 → 仓库权限」页面所做的配置都会丢失。如果找不到仓库，可在<environmentLink>设置 → 环境页面</environmentLink>点击「刷新」，或联系 <supportLink>support@cognition.ai</supportLink>。",
+"repoConnectInstructionsUrlDescription": "组织自行编写的仓库接入 Devin 指南，说明由谁接入和接入方式。「谁可以连接？」及其拟定的消息会链接到该指南。未配置时，成员只会看到需要仓库所有者或维护者连接的提示。链接中的 {repo}、{url} 和 {host} 会替换为仓库对应信息。",
+"repoRequestAccessUrlDescription": "成员申请将仓库接入 Devin 的入口，例如内部服务门户或文档。链接会显示在尚未接入 Devin 的仓库旁。链接中的 {repo}、{url} 和 {host} 会替换为仓库对应信息。",
+"resetUserLimitsDescription": "永久删除当前范围的所有档位、档位分配、群组映射、永久和临时覆盖，包括服务用户限额。当前范围将不再有单用户限额，待处理的用户限额申请将过期。账号限额、预算池限额和申请历史保持原样。此操作无法撤销。",
+"reviewKnowledge.missingRepoGrants": "你目前无法查看任何仓库的知识。在仓库中需要 repo.use_read 权限才能查看其知识。要修改知识，需要在包含该仓库的组织中拥有 Manage Review 权限。请联系管理员授权。",
+"sandboxExclusionsHelp": "JSON 可包含三个可选字段 <code>allow</code>、<code>deny</code> 和 <code>ask</code>。每个字段是 <code>Exec(...)</code> 权限规则的数组，例如 <code>Exec(git *)</code>。允许规则会直接在沙箱外运行，询问规则会先请求确认，拒绝规则始终生效，优先于团队和用户级允许或询问规则。详细选项见<docsLink>权限文档</docsLink>。",
+"slackChannelPrefs.missingScopeAndFailed": "请在设置中重新连接 Slack，授予 Devin 加入以下频道的权限：{{missingScope}}。也可在 Slack 中手动添加 Devin。下列频道可能为私有频道或不可用，请手动邀请 Devin 或选用其他频道：{{failed}}。",
+"ssoConnections.addDescription": "连接身份提供方。电子邮件地址属于所选已验证域的成员将通过该提供方登录。电子邮件和社交账号登录会继续可用，可在「登录方式」中关闭。",
+"teamsAttachmentClassificationDescription": "Devin 会读取 Teams 共享文件的 Microsoft 敏感度标签。允许的文件会共享给 Devin，禁止的文件会被拒绝。标签未知时，需要发送者先选择级别，若没有可用级别则阻止共享。通过 Microsoft 365 Files MCP 读取时采用同样的规则，标签未知时直接阻止读取。",
+"teamsAttachmentClassificationLevelDialogDescription": "Devin 会读取 Teams 中共享文件的 Microsoft 敏感度标签。允许的级别会共享文件，禁止的级别会拒绝文件。标签未知或缺失时，发送者须选择级别。没有允许的级别时，文件会被阻止。",
+"teamsOauthTenantAlreadyConnected": "此 Microsoft 365 租户已在另一个组织或企业中连接至 Devin。每个租户只能连接一次。请让对方组织的 Devin 管理员断开连接，或联系支持。",
+"teamsOauthUserLinkedInOtherAccount": "此 Microsoft 账号已绑定到另一个连接了相同 Microsoft 组织的 Devin 账号。请先登录该账号，在设置中断开 Microsoft Teams 连接后重试。",
+"tierMappingsDescription": "将群组映射到用量档位。群组可以是身份提供方群组，也可以是 Devin University 认证。未直接分配档位的成员会使用所属群组的档位。若属于多个已映射的群组，则采用档位列表中最靠前的一项。",
+"userLimitsMigrationGuidance": "用量限额正在迁移到分层模式，用户限额的作用范围是单个预算。若要集中管理，请将用户限额复制到账户预算，再将其他预算合并进去。也可以考虑将用户限额分别复制到各预算。",
+"webhookGuideIntro": "每个事件都会通过 HTTPS POST 发送到你登记的 URL，请求包含 JSON 正文和 <linkTag>Standard Webhooks</linkTag> 签名请求头。使用一个处理程序接收事件，并按 <code>event_type</code> 分支，仅需处理以下三件事：",
+"webhookGuideStep1Body": "添加端点、更改 URL、重新启用端点或点击验证时，系统会立即发送 <code>endpoint.verification</code> 事件。请原样返回其中的 <code>data.nonce</code>，即返回 2xx，正文包含该值，例如 <code>{\"nonce\": \"…\"}</code>。只有这一种事件要求回传内容，其余仅需返回 2xx。通过验证前，端点保持待处理且不会接收事件。",
+"webhookGuideStep2Body": "每个请求都包含 <code>webhook-id</code>、<code>webhook-timestamp</code> 和 <code>webhook-signature</code> 请求头。用签名密钥（将 <code>whsec_</code> 后的部分进行 Base64 解码）对 <code>{webhook-id}.{webhook-timestamp}.{raw body}</code> 计算 HMAC-SHA256，再与签名请求头中由空格分隔的 <code>v1,…</code> 值比较。匹配任意一项即有效，轮换密钥时可能有多个值。",
+"webhookGuideStep3Body": "请在 10 秒内返回 2xx。否则系统会逐渐拉长重试间隔，约三天后禁用端点。重试和重放会沿用同一个 <code>webhook-id</code>，重复 ID 应视为已处理。",
+"webhookSecretHowToUse": "用该密钥验证每个收到的请求。将 <code>whsec_</code> 后的部分进行 Base64 解码，用所得密钥对 <code>{webhook-id}.{webhook-timestamp}.{raw body}</code> 计算 HMAC-SHA256，再与 <code>webhook-signature</code> 请求头中的 <code>v1,…</code> 值比较。完整示例见本页「如何接收 Webhook」。",
+"webhookUrlCreateHint": "点击「创建」后，系统会立即向此 URL 发送签名的 <code>endpoint.verification</code> 事件。接收端必须返回 2xx，并在正文中回传请求的 <code>data.nonce</code>，端点才会生效。示例见「如何接收 Webhook」。"
 },
 "settingsCrumbs": {
 "addRole": "添加角色",
@@ -28310,7 +28547,14 @@
 "workspaceSidebar.failedToReorderBlueprints": "重新排序蓝图失败",
 "workspaceSidebar.reorderBlueprint": "重新排序蓝图 {{scope}}",
 "workspaceSidebar.root": "/（根目录）",
-"workspaceSidebar.thisWillDeleteTheEnvironmentFor": "这将删除 {{scope}} 的环境。此仓库中的其他蓝图不受影响。"
+"workspaceSidebar.thisWillDeleteTheEnvironmentFor": "这将删除 {{scope}} 的环境。此仓库中的其他蓝图不受影响。",
+"blueprintDriftWarningsSection.newerVersionAtBuild_one": "{{repoName}} 的此次构建使用提交 <commitLink>{{commit}}</commitLink>，但构建时仓库已有更新版本。下方文件与此快照所使用的版本不同。",
+"blueprintDriftWarningsSection.newerVersionAtBuild_other": "{{repoName}} 的此次构建使用提交 <commitLink>{{commit}}</commitLink>，但构建时仓库已有更新版本。下方文件与此快照所使用的版本不同。",
+"itemDefs.customize.hooks.organizationDescription": "钩子是在会话特定阶段自动运行的命令，与组织内所有成员共享。企业账号使用组织的 manage-plugins 权限，独立账号使用企业的 manage-plugins 权限。",
+"itemDefs.customize.plugins.organizationDescription": "插件由技能、规则、MCP 服务和钩子组成，可从市场、仓库或上传文件安装，并与组织内所有成员共享。企业账号使用组织的 manage-plugins 权限，独立账号使用企业的 manage-plugins 权限。",
+"itemDefs.customize.rules.organizationDescription": "规则是 Devin 在所有会话中遵循的常驻指引，与组织内所有成员共享。企业账号使用组织的 manage-plugins 权限，独立账号使用企业的 manage-plugins 权限。",
+"itemDefs.customize.skills.organizationDescription": "技能（SKILL.md 指引）由 Devin 加载到云会话，并与组织内所有成员共享。企业账号使用组织的 manage-plugins 权限，独立账号使用企业的 manage-plugins 权限。",
+"schedulesPage.automationsSupportsSchedulesAndMoreIncluding": "自动化支持计划任务和事件触发等功能。已有计划任务会继续运行，新任务应在「自动化」中创建。你可以请 Devin 用现有工具协助迁移。"
 },
 "sidebar": {
 "actions.analyzeSession": "分析会话",
@@ -30168,13 +30412,13 @@
 "viewInThread": "在话题中查看",
 "viewReminder": "查看提醒",
 "viewScript": "查看脚本",
-"viewedAPrInRepo": "查看了<repo>{{repo}}</repo>中的<pr>PR</pr>",
+"viewedAPrInRepo": "查看了<pr>一个拉取请求</pr>，所在仓库为 <repo>{{repo}}</repo>",
 "viewedCiJobLogsForJob": "查看了 {{repo}} 中作业 {{jobId}} 的 CI 作业日志",
 "viewedCiJobLogsInRepo": "查看了 {{repo}} 中的 CI 作业日志",
 "viewedCiStatusForAPrInRepo": "查看了 {{repo}} 中<pr>PR</pr>的 CI 状态",
 "viewedCiStatusForPrInRepo": "查看了 {{repo}} 中<pr>PR #{{number}}</pr>的 CI 状态",
 "viewedKnowledgeSuggestion": "查看了知识建议：{{suggestionName}}",
-"viewedPrInRepo": "查看了<repo>{{repo}}</repo>中的<pr>拉取请求 #{{number}}</pr>",
+"viewedPrInRepo": "查看了拉取请求 <pr>#{{number}}</pr>，所在仓库为 <repo>{{repo}}</repo>",
 "waitMessageWithSeconds": "{{message}}（{{seconds}} 秒）",
 "waited": "已等待",
 "waitedForSeconds": "已等待 {{seconds}} 秒",
@@ -30192,7 +30436,9 @@
 "widerThanSession.schedule": "管理定时计划的成员能够读取其提示词，并且它启动的会话对你组织可见。",
 "widerThanSession.title": "这超出了你的私有会话范围",
 "yourModifiedFiles": "你修改过的文件：",
-"yourRecentTerminalCommands": "你最近的终端命令："
+"yourRecentTerminalCommands": "你最近的终端命令：",
+"acuAmount": "{{value}} ACU",
+"keyEsc": "Esc"
 },
 "transcriptPlayground": {
 "active": "活跃：{{name}}",
@@ -30717,7 +30963,9 @@
 "usageTable.noDataForRange": "所选时间范围没有可用数据",
 "usageTable.percentages": "百分比",
 "usageTable.toggleBreakdown": "切换用量明细",
-"usageTable.viewOrgAnalytics": "点击查看此组织的分析"
+"usageTable.viewOrgAnalytics": "点击查看此组织的分析",
+"review.perPr": "每个 PR {{perPrValue}}",
+"display.prTrackingNote": "SaaS 部署会跟踪 GitHub、Azure DevOps、Bitbucket 和 GitLab 的拉取请求数据。非 GitHub 的状态可能暂时滞后。近期创建的请求会在 24 小时内更新，较早的请求会在一个月内更新。"
 },
 "userGroups": {
 "access.canConfigure": "可编辑",
@@ -30974,7 +31222,8 @@
 "subscribe": "订阅",
 "tagsRequiredNotConfigured": "会话标签为必填项，但此组织未配置任何允许的标签。请联系你的管理员。",
 "trialDisabled": "由于负载过高，启动免费会话已禁用。请订阅。",
-"trialDisabledHighLoad": "由于负载过高，当前已禁用启动免费会话。对此造成的不便深表歉意。"
+"trialDisabledHighLoad": "由于负载过高，当前已禁用启动免费会话。对此造成的不便深表歉意。",
+"advancedMcpBanner": "每个 Devin 会话都内置已认证的 <mcpLink>Devin MCP</mcpLink>，无需配置。任何 Devin 都可以查看其他会话、管理<playbooksLink>操作手册</playbooksLink>以及批量启动会话。"
 },
 "welcomeAdvanced": {
 "prompts.auditTitle": "对我们的代码库运行安全与依赖审计。",
@@ -31148,7 +31397,8 @@
 "wikiGenerationStarted": "Wiki 生成已开始",
 "wikiRefreshProcessStartedTheWikiWillBe": "Wiki 刷新流程已启动。Wiki 将在 10-30 分钟内更新。",
 "wikisHeading": "知识库",
-"yourOrganizationHasABillingIssueSubscribeTo": "你的组织存在账单问题。请订阅以继续使用 Ask Devin。"
+"yourOrganizationHasABillingIssueSubscribeTo": "你的组织存在账单问题。请订阅以继续使用 Ask Devin。",
+"editHelpRepoNotes": "要为仓库添加通用说明，请编辑 JSON 文件的 <code>repo_notes</code> 区段。可在此填写适用于整个 Wiki 的背景、全局指引或语法约定。"
 },
 "wikiHeaderActions": {
 "actions.cancel": "取消",
@@ -32810,6 +33060,8 @@
 "welcome.toggleTerminal": "切换终端",
 "welcome.wakeDescription": "唤醒 Devin 以浏览文件并进行更改。",
 "welcome.wakeUp": "唤醒",
-"welcome.waking": "正在唤醒……"
+"welcome.waking": "正在唤醒……",
+"browserPreview.designColorChroma": "色度",
+"computerStats.tooltipBox": "开发机"
 }
 }

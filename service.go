@@ -35,14 +35,14 @@ type Job struct {
 	Message, LastError                 string
 }
 type Panel struct {
-	ID, Name, Version, Status, Directory       string
-	NeedsSync, Installed, Applied, CanRestore  bool
-	Pref                                       Pref
-	Groups                                     []Summary
-	Total                                      Summary
-	Apps                                       []AppBrief
-	CacheBytes                                 int64
-	Job                                        Job
+	ID, Name, Version, Status, Directory      string
+	NeedsSync, Installed, Applied, CanRestore bool
+	Pref                                      Pref
+	Groups                                    []Summary
+	Total                                     Summary
+	Apps                                      []AppBrief
+	CacheBytes                                int64
+	Job                                       Job
 }
 type Page struct {
 	Rows  []Row
@@ -95,6 +95,9 @@ func (s *Service) settings(id string) (Pref, error) {
 	return pref, err
 }
 func (s *Service) markRefresh(id string) error {
+	if id == "devin" {
+		return nil
+	}
 	t, err := getTarget(id)
 	if err != nil {
 		return err
@@ -143,6 +146,15 @@ func (s *Service) statusState(t target) (string, bool, bool, bool, bool) {
 	if _, err := os.Stat(filepath.Join(s.root, t.id, "pending.json")); err == nil {
 		return "有未完成的资源更新", true, true, true, true
 	}
+	if t.id == "devin" {
+		if hasLegacyDevinFiles(dir) {
+			return "旧版汉化 · 待恢复原版", true, false, true, false
+		}
+		if s.devinLaunchLocale() == "zh-cn" {
+			return "简体中文 · 语言包覆盖范围", true, true, true, false
+		}
+		return "英文 · 原版资源", true, false, false, false
+	}
 	var applied Identity
 	if readJSON(filepath.Join(s.root, t.id, "identity.json"), &applied) == nil {
 		if isRestoredIdentity(t, applied) {
@@ -152,9 +164,6 @@ func (s *Service) statusState(t target) (string, bool, bool, bool, bool) {
 			return "已汉化 · 待同步更新", true, true, true, true
 		}
 		return "已汉化", true, true, true, false
-	}
-	if t.id == "devin" && hasLegacyDevinFiles(dir) {
-		return "旧版补丁 · 待切换", true, false, true, true
 	}
 	return "原版未汉化", true, false, false, false
 }
@@ -402,6 +411,10 @@ func (s *Service) Apply(id string, restore bool) (string, error) {
 		s.mu.Unlock()
 		return "", errors.New("请先等当前应用的翻译结束后再应用或恢复")
 	}
+	if id == "devin" {
+		s.mu.Unlock()
+		return s.applyDevinLocale(t, restore)
+	}
 	pref, err := s.settings(id)
 	if err != nil {
 		s.mu.Unlock()
@@ -417,7 +430,7 @@ func (s *Service) Apply(id string, restore bool) (string, error) {
 
 	op := operation()
 	s.trace(op, "apply.begin", map[string]any{"app": id, "restore": restore})
-	running, err := prepare(s.root, t, rows, cat.Name, pref, restore)
+	running, err := prepare(s.root, t, rows, pref, restore)
 	if err == nil {
 		s.mu.Lock()
 		if e := os.Remove(filepath.Join(s.root, id, "refresh")); e != nil && !errors.Is(e, os.ErrNotExist) {
@@ -459,7 +472,7 @@ func (s *Service) Open(id string) error {
 	} else if running {
 		return fmt.Errorf("%s 已在运行；如需加载最新词典，请在软件内重载窗口或重启", t.name)
 	}
-	if _, err := os.Stat(filepath.Join(s.root, id, "refresh")); err == nil {
+	if _, err := os.Stat(filepath.Join(s.root, id, "refresh")); id != "devin" && err == nil {
 		s.mu.Lock()
 		if s.job.Running && s.job.App == id {
 			s.mu.Unlock()
@@ -477,7 +490,7 @@ func (s *Service) Open(id string) error {
 		}
 		rows := merge(s.inventories[id], cat)
 		s.mu.Unlock()
-		if _, err = prepare(s.root, t, rows, cat.Name, p, false); err != nil {
+		if _, err = prepare(s.root, t, rows, p, false); err != nil {
 			return err
 		}
 		s.mu.Lock()
@@ -489,7 +502,16 @@ func (s *Service) Open(id string) error {
 	}
 	op := operation()
 	s.trace(op, "open.begin", map[string]any{"app": id})
-	cmd, err := launch(dir, t)
+	var args []string
+	if id == "devin" {
+		if err := verifyDevinInstall(dir); err != nil {
+			s.trace(op, "open.integrity", map[string]any{"success": false, "error": err.Error()})
+			return err
+		}
+		s.trace(op, "open.integrity", map[string]any{"success": true})
+		args = devinLocaleArgs(s.devinLaunchLocale())
+	}
+	cmd, err := launch(dir, t, args...)
 	if err != nil {
 		s.trace(op, "open.complete", map[string]any{"success": false, "error": err.Error()})
 		return err
@@ -512,7 +534,7 @@ func (s *Service) Open(id string) error {
 		}
 	case <-time.After(650 * time.Millisecond):
 	}
-	s.trace(op, "open.complete", map[string]any{"success": true, "pid": pid})
+	s.trace(op, "open.complete", map[string]any{"success": true, "pid": pid, "phase": "process_started"})
 	return nil
 }
 func (s *Service) cache(remove bool) (int64, error) {

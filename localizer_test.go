@@ -1,8 +1,10 @@
 package main
 
 import (
+	"archive/zip"
 	"bytes"
 	"context"
+	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -24,11 +26,11 @@ func TestCatalogRoundTrip(t *testing.T) {
 			t.Fatal(err)
 		}
 		_, summary := aggregate(merge(inv, cat))
-		if summary.Translated == 0 || (id == "devin" && summary.Missing == 0) {
+		if summary.Translated == 0 {
 			t.Fatalf("invalid summary: %+v", summary)
 		}
-		if id == "agy" && summary.Missing != 0 {
-			t.Fatalf("expected Antigravity built-in catalog to have 0 missing entries, got: %+v", summary)
+		if summary.Missing != 0 {
+			t.Fatalf("expected %s built-in catalog to have 0 missing entries, got: %+v", id, summary)
 		}
 		t.Logf("%s: %+v", id, summary)
 		cat.Messages["unknown"] = Entry{"Test", "测试", false}
@@ -505,4 +507,40 @@ func TestGenerateAgySupplement(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Logf("generated %d translations from %d scanned strings", len(supplement), len(service.inventories["agy"].rows))
+}
+
+func TestDevinIntegrityAndBundledLanguagePack(t *testing.T) {
+	root := t.TempDir()
+	page := []byte("original workbench")
+	if err := os.WriteFile(filepath.Join(root, "workbench.html"), page, 0600); err != nil {
+		t.Fatal(err)
+	}
+	sum := sha256.Sum256(page)
+	checksums := map[string]string{"workbench.html": base64.RawStdEncoding.EncodeToString(sum[:])}
+	if err := verifyDevinChecksums(root, checksums); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(root, "workbench.html"), []byte("changed workbench"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err := verifyDevinChecksums(root, checksums); err == nil || !strings.Contains(err.Error(), "workbench.html") {
+		t.Fatalf("changed page was not rejected: %v", err)
+	}
+	pack := asset("assets/" + devinPack)
+	archive, err := zip.NewReader(bytes.NewReader(pack), int64(len(pack)))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, file := range archive.File {
+		if strings.HasSuffix(file.Name, ".js") || strings.HasSuffix(file.Name, ".exe") {
+			t.Fatalf("unexpected executable in the language pack: %s", file.Name)
+		}
+	}
+	inv := makeInventory("devin", nil)
+	if inv.byKey["settings.linear"].State != "kept" || inv.byKey["settings.modelGroupGemini"].State != "kept" || inv.byKey["activity.kind.shell"].Text != "终端命令" {
+		t.Fatal("bundled catalog lost reviewed terms")
+	}
+	if canAutoKeepUnchanged("Pin Tab", "Pin Tab") {
+		t.Fatal("an untranslated title-cased action was marked as a proper name")
+	}
 }

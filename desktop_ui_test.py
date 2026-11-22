@@ -12,8 +12,8 @@ with sync_playwright() as playwright:
 
     page.locator("#translated").filter(has_not_text="—").wait_for(timeout=30000)
     assert page.locator("#app-name").inner_text() == "Devin"
-    assert page.locator("#status").inner_text() == "原版未汉化"
-    assert page.locator("#apply").inner_text() == "应用汉化"
+    assert page.locator("#status").inner_text() == "英文 · 原版资源"
+    assert page.locator("#apply").inner_text() == "准备中文启动"
     assert page.locator("#open").inner_text() == "启动应用"
     assert page.locator("#restore").is_disabled()
     assert int(page.locator("#translated").inner_text().replace(",", "")) >= 31800
@@ -67,28 +67,9 @@ with sync_playwright() as playwright:
     theme_btn.click()
     page.wait_for_timeout(220)
 
-    # Modal focus trap, live Mistral auto-detection, fold chevron morphing & focus restoration check
-    translate_trigger = page.locator("#translate")
-    translate_trigger.focus()
-    translate_trigger.press("Enter")
-    page.locator("#translate-dialog[open]").wait_for()
-    assert page.evaluate("document.activeElement?.id") == "limit"
-    page.locator("#detect-label").filter(has_not_text="正在").wait_for(timeout=5000)
-    detect_text = page.locator("#detect-label").inner_text()
-    assert "Mistral" in detect_text or "本地" in detect_text, f"unexpected detect label: {detect_text}"
-
-    chev_before = page.locator("#override-chevron svg path").first.get_attribute("d")
-    page.locator("#override-summary").click()
-    page.wait_for_timeout(220)
-    chev_after = page.locator("#override-chevron svg path").first.get_attribute("d")
-    assert chev_after != chev_before, "expected fold chevron path morph on expand"
-
-    if SCREENSHOT_DIR:
-        page.screenshot(path=os.path.join(SCREENSHOT_DIR, "localizer-translate-modal.png"), full_page=False)
-
-    page.keyboard.press("Escape")
-    page.wait_for_timeout(120)
-    assert page.evaluate("document.activeElement?.id") == "translate"
+    # The bundled catalog is complete, so there is no translation job to start.
+    assert page.locator("#missing").inner_text() == "0"
+    assert page.locator("#translate").is_disabled()
 
     # Switch to Antigravity
     page.get_by_role("button", name="Antigravity", exact=True).click()
@@ -110,7 +91,7 @@ with sync_playwright() as playwright:
     page.locator("#filter-translated").click()
     page.locator("#results tr").first.wait_for()
     page.locator("#filter-missing").click()
-    page.locator("#results tr").first.wait_for()
+    page.locator("#empty").wait_for()
     page.locator("#filter-all").click()
     page.locator("#query").fill("Show {{count}} update for {{release}}")
     first_row = page.locator("#results tr").first
