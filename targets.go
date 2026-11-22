@@ -567,7 +567,7 @@ func applyFiles(root, dir string, t target, changes []fileChange) error {
 	}
 	return recoverTransaction(home, dir, t)
 }
-func prepare(root string, t target, rows []Row, label string, pref Pref, restore bool) (bool, error) {
+func prepare(root string, t target, rows []Row, pref Pref, restore bool) (bool, error) {
 	dir := targetOrigin(t)
 	if err := supported(root, t); err != nil {
 		return false, err
@@ -576,8 +576,8 @@ func prepare(root string, t target, rows []Row, label string, pref Pref, restore
 	if err != nil {
 		return false, err
 	}
-	if t.id == "agy" && running {
-		return false, errors.New("请先退出 Antigravity，再应用或恢复汉化")
+	if running {
+		return true, fmt.Errorf("请先退出 %s，再应用或恢复汉化", t.name)
 	}
 	var changes []fileChange
 	if t.id == "devin" {
@@ -597,24 +597,18 @@ func prepare(root string, t target, rows []Row, label string, pref Pref, restore
 		if err != nil {
 			return running, err
 		}
-		if restore {
-			changes = []fileChange{
-				{devinProduct, product},
-				{devinOldManifest, nil},
-				{devinEntry, original},
-				{devinData, nil},
-				{devinWorkbenchHTML, workbench},
-				{devinSessionsHTML, sessions},
-				{devinWorkbenchScript, nil},
-				{devinSessionsScript, nil},
-			}
-		} else {
-			generated, err := devinPatch(original, workbench, sessions, product, rows, label)
-			if err != nil {
-				return running, err
-			}
-			changes = append(changes, fileChange{devinOldManifest, nil})
-			changes = append(changes, generated...)
+		if !restore {
+			return false, errors.New("Devin 安装资源仅支持恢复原版")
+		}
+		changes = []fileChange{
+			{devinProduct, product},
+			{devinOldManifest, nil},
+			{devinEntry, original},
+			{devinData, nil},
+			{devinWorkbenchHTML, workbench},
+			{devinSessionsHTML, sessions},
+			{devinWorkbenchScript, nil},
+			{devinSessionsScript, nil},
 		}
 		if err := normalizeDevinInstall(root, dir); err != nil {
 			return running, err
@@ -656,8 +650,8 @@ func cleanDesktopEnv(environ []string) []string {
 	return cleaned
 }
 
-func launch(dir string, t target) (*exec.Cmd, error) {
-	cmd := exec.Command(filepath.Join(dir, t.exe))
+func launch(dir string, t target, args ...string) (*exec.Cmd, error) {
+	cmd := exec.Command(filepath.Join(dir, t.exe), args...)
 	cmd.Dir = dir
 	cmd.Env = cleanDesktopEnv(os.Environ())
 	if err := cmd.Start(); err != nil {

@@ -118,7 +118,9 @@ function updateControls() {
 
   const applyBtn = element('apply');
   applyBtn.disabled = pending || !ready || jobHere || !panel.Installed;
-  applyBtn.textContent = panel?.NeedsSync && panel?.Applied
+  applyBtn.textContent = current === 'devin'
+    ? (panel?.NeedsSync ? '同步词典更新' : '准备中文启动')
+    : panel?.NeedsSync && panel?.Applied
     ? '同步词典更新'
     : panel?.Applied
       ? '重新写入汉化'
@@ -617,7 +619,7 @@ syncMaximizedState();
 
 element('apply').addEventListener('click', () => action(() => invoke('Apply', current, false), msg => msg));
 element('restore').addEventListener('click', () => action(() => invoke('Apply', current, true), msg => msg));
-element('open').addEventListener('click', () => action(() => invoke('Open', current), '已启动应用'));
+element('open').addEventListener('click', () => action(() => invoke('Open', current), '已发出启动请求，请查看应用窗口'));
 element('scan').addEventListener('click', () => action(
   () => invoke('Scan', current),
   count => `已核对本机版本，共 ${number.format(count)} 条词条`

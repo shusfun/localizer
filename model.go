@@ -16,7 +16,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"unicode"
 )
 
 var localHTTP = &http.Client{
@@ -708,34 +707,7 @@ func buildTranslatePrompt(model, input string) string {
 }
 
 func canAutoKeepUnchanged(source, reply string) bool {
-	norm := func(s string) string {
-		return strings.TrimSpace(strings.ReplaceAll(s, "…", "..."))
-	}
-	src := norm(source)
-	rep := norm(reply)
-	if src == "" || !strings.EqualFold(src, rep) || strings.Contains(src, "\n") || len(src) > 56 {
-		return false
-	}
-	if strings.HasSuffix(src, "?") || strings.HasSuffix(src, "!") || (strings.HasSuffix(src, ".") && !strings.HasSuffix(src, "...")) {
-		return false
-	}
-	stripped := strings.TrimSpace(tokenPattern.ReplaceAllString(src, " "))
-	words := strings.Fields(stripped)
-	if len(words) == 0 || len(words) > 4 {
-		return len(words) == 0
-	}
-	for _, w := range words {
-		clean := strings.Trim(w, "()[]{}.,:;/-_+#*'\"“”")
-		if clean == "" {
-			continue
-		}
-		hasDigitOrSymbol := strings.ContainsAny(clean, "0123456789_/+.#")
-		firstRune := []rune(clean)[0]
-		if !unicode.IsUpper(firstRune) && !hasDigitOrSymbol {
-			return false
-		}
-	}
-	return true
+	return strings.TrimSpace(source) == strings.TrimSpace(reply) && retained(source)
 }
 
 func callModelLine(ctx context.Context, conn modelConn, model, line string) (string, string, error) {
